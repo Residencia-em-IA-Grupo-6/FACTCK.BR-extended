@@ -16,14 +16,17 @@ Originalmente concebido como uma base de dados de checagens baseadas no esquema 
 FACTCK.BR/
 ├── datasets/                      # Bases de dados em formato TSV (UTF-8)
 │   ├── FACTCKBR.tsv               # Dataset principal atualizado (multi-agências)
-│   ├── FACTCKBR_saude.tsv         # Subconjunto filtrado para desinformação em saúde
+│   ├── FACTCKBR_saude.tsv         # Recorte especializado em saúde do FACTCK.BR
 │   ├── FACTCKBR_old.tsv           # Dataset histórico original (WebMedia 2019)
+│   ├── new_factCkBR_old.tsv       # Cópia do dataset histórico de 1.334 alegações
+│   ├── new_factCkBR_old_saude.tsv # Subconjunto de saúde do dataset histórico (62 matérias)
 │   ├── boatos_saude.tsv           # Notícias de saúde do Boatos.org (texto do boato + checagem)
 │   ├── boatos_saude_factckbr.tsv  # Boatos.org formatado no schema padrão FACTCK.BR
 │   ├── community_notes_pt.tsv     # Checagens do Twitter Community Notes em Português
 │   └── community_notes_en.tsv     # Checagens do Twitter Community Notes em Inglês
 ├── scripts/                       # Scripts e pipelines executáveis
 │   ├── update_factckbr.py         # Atualizador multi-fonte com suporte a Google API e Sitemaps
+│   ├── classify_health.py         # Classificador e extrator de checagens de saúde
 │   ├── scrape_boatos_saude.py     # Scraper com suporte a retomada (resume) para o Boatos.org
 │   └── scrape_community_notes.py  # Pipeline do Twitter Community Notes via oEmbed sem custos
 ├── requirements.txt               # Dependências do Python
@@ -117,7 +120,21 @@ python scripts/update_factckbr.py --source google-api --key "SUA_CHAVE_GOOGLE" -
 
 ---
 
-### Script 2: Scraper de Notícias Falsas de Saúde (`scripts/scrape_boatos_saude.py`)
+### Script 2: Classificador e Extrator de Notícias de Saúde (`scripts/classify_health.py`)
+
+Analisa qualquer base de checagens (ex.: `new_factCkBR_old.tsv`), aplicando taxonomia médica refinada para identificar desinformação em saúde, vacinas, medicamentos e saúde pública, desconsiderando metáforas políticas e termos policiais.
+
+```bash
+# Classificar new_factCkBR_old.tsv e gerar a base exclusiva de saúde
+python scripts/classify_health.py --input datasets/new_factCkBR_old.tsv --output-health datasets/new_factCkBR_old_saude.tsv
+
+# Classificar e também gerar uma cópia completa anotada com as colunas is_health (1/0) e health_categories
+python scripts/classify_health.py -i datasets/new_factCkBR_old.tsv -o datasets/new_factCkBR_old_saude.tsv -a datasets/new_factCkBR_old_annotated.tsv
+```
+
+---
+
+### Script 3: Scraper de Notícias Falsas de Saúde (`scripts/scrape_boatos_saude.py`)
 
 Extrai matérias do portal Boatos.org com suporte completo a **retomada automática (resume)** via checkpoint `.boatos_saude_checkpoint.json`.
 
@@ -134,7 +151,7 @@ python scripts/scrape_boatos_saude.py --delay 0.8
 
 ---
 
-### Script 3: Scraper do Twitter Community Notes (`scripts/scrape_community_notes.py`)
+### Script 4: Scraper do Twitter Community Notes (`scripts/scrape_community_notes.py`)
 
 Extrai postagens do Twitter, obtém o texto completo do tweet via `oEmbed` (zero custo), detecta o idioma e salva separadamente em `datasets/community_notes_pt.tsv` e `datasets/community_notes_en.tsv` com rótulos binários de veracidade (`is_fake`).
 
