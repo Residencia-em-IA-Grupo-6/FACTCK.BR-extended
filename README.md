@@ -1,12 +1,12 @@
-# FACTCK.BR: Plataforma de Datasets e Ferramentas para Detecção de Desinformação
+# FACTCK.BR: Plataforma de Datasets e Ferramentas para Detecção de Desinformação em Saúde
 
-O **FACTCK.BR** é um projeto e ecossistema de dados voltado ao estudo, pesquisa e desenvolvimento de modelos de Inteligência Artificial e Processamento de Linguagem Natural (NLP) para **detecção de desinformação, notícias falsas (fake news) e notícias verdadeiras**, com ênfase primordial em língua portuguesa e expansões para o inglês.
+O **FACTCK.BR** é um projeto e ecossistema de dados voltado ao estudo, pesquisa e desenvolvimento de modelos de Inteligência Artificial e Processamento de Linguagem Natural (NLP) para **detecção de desinformação, boatos (fake news) e notícias verdadeiras**, com ênfase primordial em língua portuguesa e no domínio de **saúde pública** (vacinas, tratamentos, epidemias, medicamentos e terapias alternativas).
 
-Originalmente concebido como uma base de dados de checagens baseadas no esquema [ClaimReview](https://schema.org/ClaimReview) (publicado no simpósio WebMedia '19), o repositório foi modernizado para incluir:
-1. **Pipelines de atualização contínua** com a API oficial do Google Fact Check Tools e sitemaps de agências brasileiras (Aos Fatos, Agência Lupa, Boatos.org, etc.).
-2. **Filtros temáticos especializados** com foco em desinformação sobre **saúde** (vacinas, tratamentos, epidemias e saúde pública).
-3. **Scrapers especializados** capazes de extrair o texto original completo de boatos e suas respectivas refutações.
-4. **Extração de checagens de redes sociais** via **Twitter Community Notes** (Birdwatch) e oEmbed gratuito (sem custo de API), fornecendo amostras de postagens com textos reais de tweets (`claim`), avaliações comunitárias (`review`) e **classificação binária de veracidade** (`is_fake`).
+Originalmente concebido como uma base de dados de checagens baseadas no esquema [ClaimReview](https://schema.org/ClaimReview) (publicado no simpósio WebMedia '19), o repositório foi modernizado e estendido para incluir:
+1. **Base consolidada unificada de saúde** (`factckbr_boatos_saude_consolidado.tsv`) combinando transcrições originais de boatos e checagens profissionais com rotulagem booleana de veracidade (`is_fake`).
+2. **Pipelines de atualização contínua** com a API oficial do Google Fact Check Tools e sitemaps de agências brasileiras (Aos Fatos, Agência Lupa, Boatos.org, Estadão Verifica, UOL Confere, etc.).
+3. **Filtros temáticos especializados** com taxonomia médica e semântica refinada para saúde.
+4. **Scrapers especializados** capazes de extrair o texto original completo de boatos de redes sociais/mensageiros e suas respectivas refutações jornalísticas.
 
 ---
 
@@ -14,32 +14,48 @@ Originalmente concebido como uma base de dados de checagens baseadas no esquema 
 
 ```
 FACTCK.BR/
-├── datasets/                      # Bases de dados em formato TSV (UTF-8)
-│   ├── FACTCKBR.tsv               # Dataset principal atualizado (multi-agências)
-│   ├── FACTCKBR_saude.tsv         # Recorte especializado em saúde do FACTCK.BR
-│   ├── FACTCKBR_old.tsv           # Dataset histórico original (WebMedia 2019)
-│   ├── new_factCkBR_old.tsv       # Cópia do dataset histórico de 1.334 alegações
-│   ├── new_factCkBR_old_saude.tsv # Subconjunto de saúde do dataset histórico (62 matérias)
-│   ├── boatos_saude.tsv           # Notícias de saúde do Boatos.org (texto do boato + checagem)
-│   ├── boatos_saude_factckbr.tsv  # Boatos.org formatado no schema padrão FACTCK.BR
-│   ├── community_notes_pt.tsv     # Checagens do Twitter Community Notes em Português
-│   └── community_notes_en.tsv     # Checagens do Twitter Community Notes em Inglês
-├── scripts/                       # Scripts e pipelines executáveis
-│   ├── update_factckbr.py         # Atualizador multi-fonte com suporte a Google API e Sitemaps
-│   ├── classify_health.py         # Classificador e extrator de checagens de saúde
-│   ├── scrape_boatos_saude.py     # Scraper com suporte a retomada (resume) para o Boatos.org
-│   └── scrape_community_notes.py  # Pipeline do Twitter Community Notes via oEmbed sem custos
-├── requirements.txt               # Dependências do Python
-├── LICENSE                        # Licença MIT
-└── README.md                      # Documentação geral do repositório
+├── datasets/                                 # Bases de dados em formato TSV (UTF-8) limpas e deduplicadas
+│   ├── factckbr_boatos_saude_consolidado.tsv # Base UNIFICADA de saúde (2.928 checagens padronizadas com is_fake)
+│   ├── FACTCKBR_updated.tsv                  # Dataset principal atualizado (multi-agências: 2.888 checagens)
+│   ├── FACTCKBR_updated_saude.tsv            # Recorte especializado em saúde do FACTCK.BR (1.641 checagens)
+│   ├── FACTCKBR_old.tsv                      # Dataset histórico original de referência (WebMedia 2019: 1.334 checagens)
+│   └── boatos_saude.tsv                      # Matérias de saúde do Boatos.org (1.287 matérias com boato íntegro)
+├── scripts/                                  # Scripts e pipelines executáveis
+│   ├── consolidate_health_datasets.py        # Consolidador unificado de saúde (Boatos.org + FACTCKBR Saúde)
+│   ├── update_factckbr.py                    # Atualizador multi-fonte com suporte a Google API e Sitemaps
+│   ├── classify_health.py                    # Classificador e extrator temático de checagens de saúde
+│   └── scrape_boatos_saude.py                # Scraper com suporte a retomada (resume) para o Boatos.org
+├── requirements.txt                          # Dependências do Python
+├── LICENSE                                   # Licença MIT
+└── README.md                                 # Documentação geral do repositório
 ```
 
 ---
 
 ## 📊 Dicionário dos Datasets
 
-### 1. `datasets/FACTCKBR.tsv` e `datasets/FACTCKBR_saude.tsv`
-Bases tabulares contendo checagens estruturadas de agências de checagem profissionais (Aos Fatos, Lupa, Boatos.org, etc.):
+### 1. `datasets/factckbr_boatos_saude_consolidado.tsv` (Base Unificada de Saúde)
+Consolidação completa e padronizada das checagens de saúde do Boatos.org e do FACTCK.BR (2.928 checagens únicas, ordenadas por data decrescente):
+
+| Coluna | Descrição |
+| :--- | :--- |
+| `URL` | Link do artigo de checagem |
+| `Data` | Data de publicação da verificação (`YYYY-MM-DD`) |
+| `Titulo` | Título da checagem jornalística |
+| `Author` | Agência / veículo responsável (Boatos.org, Aos Fatos, Observador, UOL Confere, AFP Checamos, Estadão Verifica, Projeto Comprova, etc.) |
+| `Claim` | Texto integral do boato / alegação analisada (`Texto_Falso_Original` ou `claimReviewed`) |
+| `reviewBody` | Texto completo do desmentido / checagem explicativa |
+| `is_fake` | Booleano declarando se a alegação é falsa (`True`) ou verdadeira (`False`) |
+
+**Distribuição da Base Consolidada:**
+- **Total de registros**: 2.928
+- **Boatos / Fake news (`is_fake=True`)**: 2.904 (99.18%)
+- **Fatos / Notícias verdadeiras (`is_fake=False`)**: 24 (0.82%)
+
+---
+
+### 2. `datasets/FACTCKBR_updated.tsv` e `datasets/FACTCKBR_updated_saude.tsv`
+Bases tabulares contendo checagens estruturadas de agências de checagem profissionais (Aos Fatos, Lupa, UOL Confere, Estadão Verifica, AFP, Observador, etc.):
 
 | Coluna | Descrição |
 | :--- | :--- |
@@ -51,45 +67,31 @@ Bases tabulares contendo checagens estruturadas de agências de checagem profiss
 | `title` | Título da matéria publicada |
 | `ratingValue` | Nota numérica atribuída pela agência |
 | `bestRating` | Escala máxima da agência |
-| `alternativeName` | Veredito textual (ex.: Falso, Verdadeiro, Exagerado) |
-
-### 2. `datasets/boatos_saude.tsv`
-Matérias extraídas diretamente da seção de saúde do portal Boatos.org, contendo o texto completo do boato:
-
-| Coluna | Descrição |
-| :--- | :--- |
-| `url` | Link original no Boatos.org |
-| `title` | Título do artigo |
-| `date` | Data de publicação |
-| `author` | Nome do autor da checagem |
-| `claim` | Frase principal ou resumo do boato |
-| `rumors_text` | **Texto original transcrito do boato** (mensagens de WhatsApp, redes sociais, etc.) |
-| `fact_check` | Explicação da desmistificação pelo jornalista |
-| `verdict` | Classificação do Boatos.org (ex.: Boato, Golpe, Falso) |
-| `sources` | Fontes e referências consultadas |
-
-### 3. `datasets/community_notes_pt.tsv` e `datasets/community_notes_en.tsv`
-Postagens do Twitter/X associadas a checagens colaborativas comunitárias (**Community Notes** / Birdwatch), separadas em arquivos distintos por idioma:
-
-| Coluna | Descrição |
-| :--- | :--- |
-| `tweet_id` | Identificador único do Tweet |
-| `note_id` | Identificador único da Nota da Comunidade |
-| `claim` | **Texto original do tweet** recuperado via oEmbed oficial |
-| `review` | **Resumo da checagem** redigido pelos contribuidores comunitários |
-| `classification` | Classificação original (`MISINFORMED_OR_POTENTIALLY_MISLEADING` ou `NOT_MISLEADING`) |
-| `is_fake` | **Classificação binária**: `1` (boato/fake news) ou `0` (notícia/postagem verdadeira) |
-| `language` | Idioma validado (`pt` ou `en`) |
-| `status` | Status de consenso da nota (`CURRENTLY_RATED_HELPFUL`, `NEEDS_MORE_RATINGS`, etc.) |
-| `tweet_author` | Nome do autor da postagem |
-| `tweet_url` | Link permanente da postagem no X |
-| `misleading_reasons` | Tags detalhadas de motivo de erro (ex.: `factual_error`, `missing_context`) |
-| `sources` | Fontes confiáveis citadas no review |
-| `created_at` | Data e hora em formato UTC (`YYYY-MM-DD HH:MM:SS`) |
+| `alternativeName` | Veredito textual (ex.: Falso, Verdadeiro, Exagerado, Enganoso) |
 
 ---
 
-## 🚀 Como Usar os Scripts
+### 3. `datasets/boatos_saude.tsv`
+Matérias extraídas diretamente da seção de saúde do portal Boatos.org, contendo a transcrição literal do boato:
+
+| Coluna | Descrição |
+| :--- | :--- |
+| `URL` | Link original no Boatos.org |
+| `Data` | Data de publicação |
+| `Titulo` | Título do artigo |
+| `Texto_Falso_Original` | **Texto original transcrito do boato** (mensagens de WhatsApp, posts de redes sociais, correntes) |
+| `Resumo_Boato` | Frase principal ou síntese do boato |
+| `Desmentido` | Explicação e desmistificação detalhada pelo jornalista |
+| `Tags` | Categoria temática |
+
+---
+
+### 4. `datasets/FACTCKBR_old.tsv`
+Dataset histórico de referência do artigo acadêmico original (WebMedia 2019), preservado como benchmark com 1.334 checagens.
+
+---
+
+## 🚀 Como Executar os Scripts
 
 ### Instalação das Dependências
 
@@ -103,15 +105,30 @@ pip install -r requirements.txt
 
 ---
 
-### Script 1: Atualização do FACTCK.BR (`scripts/update_factckbr.py`)
+### Script 1: Consolidação da Base de Saúde (`scripts/consolidate_health_datasets.py`)
 
-Atualiza `datasets/FACTCKBR.tsv` coletando checagens recentes via API oficial do Google Fact Check Tools (com chave) ou via sitemaps XML das agências (sem chave necessária). Exporta automaticamente o subconjunto exclusivo de saúde para `datasets/FACTCKBR_saude.tsv`.
+Gera a base unificada padronizada a partir de `boatos_saude.tsv` e `FACTCKBR_updated_saude.tsv`:
 
 ```bash
-# Modo automático (extrai até 50 novas checagens de saúde)
+python scripts/consolidate_health_datasets.py
+```
+
+Argumentos opcionais:
+- `--boatos`: Caminho para o arquivo do Boatos.org (padrão: `datasets/boatos_saude.tsv`).
+- `--factckbr`: Caminho para o arquivo FACTCKBR saúde (padrão: `datasets/FACTCKBR_updated_saude.tsv`).
+- `--output`, `-o`: Caminho para o arquivo consolidado de saída (padrão: `datasets/factckbr_boatos_saude_consolidado.tsv`).
+
+---
+
+### Script 2: Atualização do FACTCK.BR (`scripts/update_factckbr.py`)
+
+Atualiza `datasets/FACTCKBR_updated.tsv` coletando checagens recentes via API oficial do Google Fact Check Tools (com chave) ou via sitemaps XML das agências (sem necessidade de chave de API). Exporta automaticamente o subconjunto de saúde para `datasets/FACTCKBR_updated_saude.tsv`.
+
+```bash
+# Modo automático (extrai até 50 novas checagens de saúde via sitemaps)
 python scripts/update_factckbr.py --limit 50
 
-# Utilizando sitemaps diretamente (sem necessidade de chave de API)
+# Utilizando sitemaps diretamente
 python scripts/update_factckbr.py --source sitemap --limit 100
 
 # Utilizando Google Fact Check Tools API
@@ -120,21 +137,21 @@ python scripts/update_factckbr.py --source google-api --key "SUA_CHAVE_GOOGLE" -
 
 ---
 
-### Script 2: Classificador e Extrator de Notícias de Saúde (`scripts/classify_health.py`)
+### Script 3: Classificador e Extrator de Notícias de Saúde (`scripts/classify_health.py`)
 
-Analisa qualquer base de checagens (ex.: `new_factCkBR_old.tsv`), aplicando taxonomia médica refinada para identificar desinformação em saúde, vacinas, medicamentos e saúde pública, desconsiderando metáforas políticas e termos policiais.
+Analisa qualquer base de checagens (ex.: `FACTCKBR_old.tsv`), aplicando taxonomia médica refinada para identificar desinformação em saúde, vacinas, medicamentos e saúde pública, desconsiderando metáforas políticas e termos policiais.
 
 ```bash
-# Classificar new_factCkBR_old.tsv e gerar a base exclusiva de saúde
-python scripts/classify_health.py --input datasets/new_factCkBR_old.tsv --output-health datasets/new_factCkBR_old_saude.tsv
+# Classificar FACTCKBR_old.tsv e extrair a base exclusiva de saúde
+python scripts/classify_health.py --input datasets/FACTCKBR_old.tsv --output-health datasets/FACTCKBR_old_saude.tsv
 
-# Classificar e também gerar uma cópia completa anotada com as colunas is_health (1/0) e health_categories
-python scripts/classify_health.py -i datasets/new_factCkBR_old.tsv -o datasets/new_factCkBR_old_saude.tsv -a datasets/new_factCkBR_old_annotated.tsv
+# Classificar e gerar uma cópia anotada com is_health (1/0) e health_categories
+python scripts/classify_health.py -i datasets/FACTCKBR_old.tsv -o datasets/FACTCKBR_old_saude.tsv -a datasets/FACTCKBR_old_annotated.tsv
 ```
 
 ---
 
-### Script 3: Scraper de Notícias Falsas de Saúde (`scripts/scrape_boatos_saude.py`)
+### Script 4: Scraper de Notícias Falsas de Saúde (`scripts/scrape_boatos_saude.py`)
 
 Extrai matérias do portal Boatos.org com suporte completo a **retomada automática (resume)** via checkpoint `.boatos_saude_checkpoint.json`.
 
@@ -147,26 +164,6 @@ python scripts/scrape_boatos_saude.py --pages 0
 
 # Ajustar intervalo entre requisições (evitar bloqueios)
 python scripts/scrape_boatos_saude.py --delay 0.8
-```
-
----
-
-### Script 4: Scraper do Twitter Community Notes (`scripts/scrape_community_notes.py`)
-
-Extrai postagens do Twitter, obtém o texto completo do tweet via `oEmbed` (zero custo), detecta o idioma e salva separadamente em `datasets/community_notes_pt.tsv` e `datasets/community_notes_en.tsv` com rótulos binários de veracidade (`is_fake`).
-
-```bash
-# Extrair amostra de checagens em português
-python scripts/scrape_community_notes.py --pt-only --limit 50
-
-# Extrair amostra de checagens em inglês
-python scripts/scrape_community_notes.py --en-only --limit 100
-
-# Executar balanceando checagens falsas e verdadeiras (is_fake=1 e is_fake=0)
-python scripts/scrape_community_notes.py --status-filter all --limit 500
-
-# Usar apenas checagens com consenso comunitário aprovado (CURRENTLY_RATED_HELPFUL)
-python scripts/scrape_community_notes.py --status-filter helpful --limit 200
 ```
 
 ---
@@ -193,4 +190,4 @@ Se você utilizar o FACTCK.BR ou suas derivações em sua pesquisa, por favor ci
 ## 📄 Licença
 
 - O código-fonte e os scripts são disponibilizados sob a licença **MIT** (consulte o arquivo `LICENSE`).
-- Os dados originais de checagem pertencem e são creditados às respectivas agências de verificação e contribuidores de cada plataforma.
+- Os dados originais de checagem pertencem e são creditados às respectivas agências de verificação e portais de informação.
