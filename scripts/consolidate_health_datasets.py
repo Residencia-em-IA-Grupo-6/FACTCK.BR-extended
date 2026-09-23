@@ -16,9 +16,96 @@ em uma base única e padronizada com os atributos solicitados:
 
 import os
 import re
+import html
 import argparse
 import pandas as pd
 from pathlib import Path
+
+
+def is_invalid_claim_text(s: str) -> bool:
+    """Detecta se o texto extraído é na verdade um marcador/embed web em vez do boato."""
+    if not s or len(s.strip()) < 15:
+        return True
+    s_low = s.lower()
+    bad_patterns = [
+        "confira o desmentido",
+        "ver essa foto no instagram",
+        "assista ao desmentido",
+        "assista ao vídeo",
+        "data-mce-type",
+    ]
+    return any(p in s_low for p in bad_patterns)
+
+
+def clean_claim(text: str) -> str:
+    """
+    Higieniza o texto da alegação para remover vieses que distorcem o treinamento de ML:
+      1. Vazamento direto de rótulo: 'Boato -', 'Boato –', 'Boato:', '#boato', etc.
+      2. Prefixos editoriais de agências: 'Conteúdo verificado:', 'Versão 1:', 'Texto:'
+      3. Aspas envolventes e tipográficas (“...”, "...", '...', «...»)
+      4. Emojis e pictogramas de sensacionalismo (🚨, ⚠️, 💉, 💀, etc.)
+      5. Links externos e menções de rede social (https://, @user, #tags)
+      6. Resíduos de tags HTML e entidades (&amp;, <span...>)
+      7. Pontuação excessiva e marcadores editoriais ([…], !!!, ???)
+    """
+    if not text or not isinstance(text, str):
+        return ""
+
+    # 1. Decodificar entidades HTML (&amp;, &quot;, &#8220;, etc.)
+    t = html.unescape(text)
+
+    # 2. Remover tags HTML residuais (<span...>, <br>, etc.)
+    t = re.sub(r"<[^>]+>", " ", t)
+
+    # 3. Remover URLs, encurtadores e links de mídia
+    t = re.sub(r"https?://\S+|pic\.twitter\.com/\S+|t\.co/\S+", "", t)
+
+    # 4. Remover vazamentos de rótulo / veredito inicial
+    t = re.sub(r"^[Bb]oato\s*[\-–—:\.]\s*", "", t)
+    t = re.sub(r"^[Cc]onte[úu]do\s*verificado\s*[\-–—:\.]\s*", "", t)
+    t = re.sub(r"^(?:[Vv]ers[ãa]o|[Tt]exto)\s*\d*\s*[\-–—:\.]\s*", "", t)
+    t = re.sub(r"^[Ff]also\s*[\-–—:]\s*", "", t)
+
+    # Tags de veredito no corpo ou no final (#boato, [boato], (boato))
+    t = re.sub(r"#boato\b", "", t, flags=re.IGNORECASE)
+    t = re.sub(r"\[boato\]|\(boato\)", "", t, flags=re.IGNORECASE)
+
+    # 5. Remover emojis e símbolos pictográficos que introduzem atalhos espúrios
+    emoji_pattern = re.compile(
+        "[\U00010000-\U0010ffff\u2600-\u26ff\u2700-\u27bf\u200d\ufe0f]",
+        flags=re.UNICODE
+    )
+    t = emoji_pattern.sub("", t)
+
+    # 6. Remover menções sociais (@usuario) e desmembrar hashtags (#palavra -> palavra)
+    t = re.sub(r"#([A-Za-z0-9_À-ÿ]+)", r"\1", t)
+    t = re.sub(r"@\w+", "", t)
+
+    # 7. Remover marcadores editoriais de corte/truncamento ([…], [...])
+    t = re.sub(r"\[…\]|\[\.\.\.\]", "", t)
+
+    # 8. Normalizar pontuação enfática exagerada (!!!! -> !, ???? -> ?)
+    t = re.sub(r"!{2,}", "!", t)
+    t = re.sub(r"\?{2,}", "?", t)
+
+    # 9. Remover aspas envolventes (leading e trailing quotation marks)
+    t = t.strip()
+    quote_chars = "\"\'“”‘’«»"
+    while len(t) > 1 and t[0] in quote_chars and t[-1] in quote_chars:
+        t = t[1:-1].strip()
+    while len(t) > 0 and t[0] in quote_chars:
+        t = t[1:].strip()
+    while len(t) > 0 and t[-1] in quote_chars:
+        t = t[:-1].strip()
+
+    # 10. Normalizar espaços múltiplos e quebras de linha
+    t = re.sub(r"\s+", " ", t).strip()
+
+    # 11. Garantir primeira letra maiúscula após remoção de prefixos
+    if t and t[0].islower():
+        t = t[0].upper() + t[1:]
+
+    return t
 
 
 def map_author(author_str: str) -> str:
@@ -90,17 +177,21 @@ def consolidate(
         count_b = 0
         for _, r in df_b.iterrows():
             claim = r.get("Texto_Falso_Original", "").strip()
-            if not claim:
+            if is_invalid_claim_text(claim):
                 claim = r.get("Resumo_Boato", "").strip()
-            if not claim:
+            if is_invalid_claim_text(claim):
                 claim = r.get("Titulo", "").strip()
+
+            clean_c = clean_claim(claim)
+            if not clean_c or len(clean_c) < 15:
+                clean_c = clean_claim(r.get("Titulo", "").strip())
 
             records.append({
                 "URL": r.get("URL", "").strip(),
                 "Data": r.get("Data", "").strip(),
                 "Titulo": r.get("Titulo", "").strip(),
                 "Author": "Boatos.org",
-                "Claim": claim,
+                "Claim": clean_c,
                 "reviewBody": r.get("Desmentido", "").strip(),
                 "is_fake": True,  # Todas as matérias do Boatos.org/saúde verificam boatos falsos
             })
@@ -119,6 +210,10 @@ def consolidate(
             if not claim:
                 claim = r.get("title", "").strip()
 
+            clean_c = clean_claim(claim)
+            if not clean_c or len(clean_c) < 15:
+                clean_c = clean_claim(r.get("title", "").strip())
+
             is_fake = classify_veracity(r.get("alternativeName", ""))
 
             review = r.get("reviewBody", "").strip()
@@ -130,7 +225,7 @@ def consolidate(
                 "Data": r.get("datePublished", "").strip(),
                 "Titulo": r.get("title", "").strip(),
                 "Author": map_author(r.get("Author", "")),
-                "Claim": claim,
+                "Claim": clean_c,
                 "reviewBody": review,
                 "is_fake": is_fake,
             })
