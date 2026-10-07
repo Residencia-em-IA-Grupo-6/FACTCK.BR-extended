@@ -203,18 +203,31 @@ def build_dataset(
         seen_claims.add(claim_norm)
         theme_pools[theme].append(item)
 
-    # 1. Carregar Base Consolidada de Saúde (datasets/factckbr_boatos_saude_consolidado.tsv)
-    health_file = datasets_dir / "factckbr_boatos_saude_consolidado.tsv"
+    # 1. Carregar Base Consolidada de Saúde das notícias mais recentes (datasets/saude_consolidado_unificado.tsv)
+    health_file = datasets_dir / "saude_consolidado_unificado.tsv"
+    if not health_file.exists():
+        health_file = datasets_dir / "factckbr_boatos_saude_consolidado.tsv"
+
     if health_file.exists():
-        print(f"Processando Base Consolidada de Saúde ({health_file.name})...")
+        print(f"Processando Notícias Mais Recentes de Saúde ({health_file.name})...")
         h_rows = load_tsv_safe(health_file)
-        # Separar falsos e verdadeiros para balanceamento interno de saúde
+
+        # Ordenar estritamente por data decrescente (mais recentes primeiro)
+        def get_date_key(r):
+            return str(r.get("Data", "")).strip()
+
         fakes = [r for r in h_rows if str(r.get("is_fake", "")).lower() == "true"]
         trues = [r for r in h_rows if str(r.get("is_fake", "")).lower() == "false"]
-        random.shuffle(fakes)
-        random.shuffle(trues)
 
-        for r in fakes + trues:
+        fakes.sort(key=get_date_key, reverse=True)
+        trues.sort(key=get_date_key, reverse=True)
+
+        half = max_per_theme // 2
+        selected_fakes = fakes[:half]
+        selected_trues = trues[: (max_per_theme - half)]
+        recent_health = sorted(selected_fakes + selected_trues, key=get_date_key, reverse=True)
+
+        for r in recent_health:
             claim = clean_claim(r.get("Claim", ""))
             add_candidate(
                 {
@@ -227,7 +240,7 @@ def build_dataset(
                 },
                 "saude",
             )
-        print(f"  -> Total em 'saude' após ingestão: {len(theme_pools['saude'])}")
+        print(f"  -> Total de notícias mais recentes em 'saude': {len(theme_pools['saude'])}")
 
     # 2. Carregar Checagens Gerais FACTCK.BR (FACTCKBR_updated.tsv e FACTCKBR_old.tsv)
     for fname in ["FACTCKBR_updated.tsv", "FACTCKBR_old.tsv"]:
@@ -241,7 +254,8 @@ def build_dataset(
                 title_raw = r.get("title", "").strip()
                 text_to_classify = f"{claim_raw} {title_raw}"
                 theme = classify_theme(text_to_classify)
-                if theme:
+                # Saúde é mantida estritamente com as mais recentes do saude_consolidado_unificado
+                if theme and theme != "saude":
                     claim_clean = clean_claim(claim_raw)
                     is_fake = classify_veracity(r.get("alternativeName", ""))
                     add_candidate(
@@ -366,8 +380,9 @@ def build_dataset(
     final_records = []
     for theme in THEMES:
         pool = theme_pools[theme]
-        # Embaralhar para balancear fontes e veracidade
-        random.shuffle(pool)
+        # Embaralhar para balancear fontes e veracidade (exceto saúde, que já está ordenada pelas mais recentes)
+        if theme != "saude":
+            random.shuffle(pool)
         selected = pool[:max_per_theme]
         final_records.extend(selected)
         fake_count = sum(1 for item in selected if item["is_fake"] is True)
