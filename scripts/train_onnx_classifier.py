@@ -260,8 +260,15 @@ def main():
     logger.info(f"Divisão: Treino={len(train_df)}, Validação={len(val_df)}, Teste={len(test_df)}")
 
     # 3. Inicializar Tokenizer e Dataloaders
-    logger.info(f"Carregando tokenizer '{args.model_name}'...")
-    tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+    tok_source = args.model_name
+    if Path(tok_source).is_dir() and not (Path(tok_source) / "tokenizer.json").exists():
+        if (output_dir / "tokenizer" / "tokenizer.json").exists():
+            tok_source = str(output_dir / "tokenizer")
+        else:
+            tok_source = "distilbert-base-multilingual-cased"
+
+    logger.info(f"Carregando tokenizer de '{tok_source}'...")
+    tokenizer = AutoTokenizer.from_pretrained(tok_source)
     tokenizer.save_pretrained(output_dir / "tokenizer")
 
     train_dataset = TextClaimDataset(

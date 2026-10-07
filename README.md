@@ -44,6 +44,7 @@ FACTCK.BR/
 ├── scripts/                                  # Scripts e pipelines executáveis
 │   ├── train_onnx_classifier.py              # Treinador PyTorch, exportador ONNX e quantizador INT8
 │   ├── predict_theme.py                      # Mecanismo de inferência rápido (CLI / Interativo / Arquivo)
+│   ├── add_boundary_cases.py                 # Injetor de casos de fronteira (hard samples) para calibração
 │   ├── prepare_theme_dataset.py              # Pipeline mestre de geração do dataset de classificação temática
 │   ├── classify_themes.py                    # Classificador temático de alta precisão (taxonomia 7 classes)
 │   ├── collect_all_categories.py             # Orquestrador para raspagem balanceada multi-categoria
@@ -216,28 +217,28 @@ Treina um classificador neural de ponta a ponta sobre o dataset temático (`data
 python scripts/train_onnx_classifier.py --epochs 3 --batch-size 16 --lr 3e-5
 ```
 
-#### ⚡ Resultados Comparativos do Benchmark (Conjunto de Teste - 307 amostras):
+#### ⚡ Resultados Comparativos do Benchmark Calibrado (Conjunto de Teste - 311 amostras):
 
 | Métrica / Propriedade | ONNX FP32 | ONNX INT8 | Ganho / Otimização |
 | :--- | :---: | :---: | :---: |
 | **Tamanho em Disco** | **516,36 MB** | **129,45 MB** | **-74,9% (4x menor)** |
-| **Acurácia no Teste** | 77,85% | 76,87% | -0,98% (quase sem perdas) |
-| **Macro F1-Score** | 76,19% | 75,07% | -1,11% |
-| **Weighted F1-Score** | 78,01% | 77,15% | -0,86% |
-| **Latência Média por Amostra (CPU)** | 16,31 ms | **13,55 ms** | **1,20x mais rápido** |
-| **Throughput (Amostras / segundo)** | 61,3 s/sec | **73,8 s/sec** | **+20,4%** |
+| **Acurácia no Teste** | **82,96%** | **79,74%** | -3,22% |
+| **Macro F1-Score** | **80,16%** | **76,87%** | -3,29% |
+| **Weighted F1-Score** | **83,20%** | **79,98%** | -3,22% |
+| **Latência Média por Amostra (CPU)** | 14,58 ms | **12,28 ms** | **1,19x mais rápido** |
+| **Throughput (Amostras / segundo)** | 68,6 s/sec | **81,4 s/sec** | **+18,7%** |
 
-#### 🎯 Desempenho por Tema no ONNX INT8:
+#### 🎯 Desempenho por Tema no ONNX INT8 (Após Fine-Tuning de Fronteira):
 | Tema | Precisão | Revocação | F1-Score | Amostras de Teste |
 | :--- | :---: | :---: | :---: | :---: |
-| **Esporte** | 90,7% | 89,1% | **89,9%** | 55 |
-| **Entretenimento** | 84,0% | 76,4% | **80,0%** | 55 |
-| **Saúde** | 85,1% | 72,7% | **78,4%** | 55 |
-| **Economia** | 76,3% | 78,4% | **77,3%** | 37 |
-| **Tecnologia** | 68,3% | 82,4% | **74,7%** | 34 |
-| **Política** | 67,3% | 67,3% | **67,3%** | 55 |
-| **Segurança Pública** | 50,0% | 68,8% | **57,9%** | 16 |
-| **Média Ponderada Global** | **78,0%** | **76,9%** | **77,1%** | **307** |
+| **Esporte** | 95,9% | 83,9% | **89,5%** | 56 |
+| **Saúde** | 82,5% | **91,2%** | **86,7%** | 57 |
+| **Entretenimento** | 89,4% | 76,4% | **82,4%** | 55 |
+| **Política** | 80,8% | 75,0% | **77,8%** | 56 |
+| **Economia** | 67,4% | 80,6% | **73,4%** | 36 |
+| **Tecnologia** | 66,7% | 76,5% | **71,2%** | 34 |
+| **Segurança Pública** | 55,6% | 58,8% | **57,1%** | 17 |
+| **Média Ponderada Global** | **80,2%** | **79,7%** | **80,0%** | **311** |
 
 ---
 
