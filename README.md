@@ -3,10 +3,11 @@
 O **FACTCK.BR** é um projeto e ecossistema de dados voltado ao estudo, pesquisa e desenvolvimento de modelos de Inteligência Artificial e Processamento de Linguagem Natural (NLP) para **detecção de desinformação (fake news vs. notícias verdadeiras)** e **classificação temática de notícias em múltiplos domínios**, com ênfase primordial na língua portuguesa.
 
 Originalmente concebido como uma base de dados de checagens baseadas no esquema [ClaimReview](https://schema.org/ClaimReview) (publicado no simpósio WebMedia '19), o repositório foi modernizado e estendido para incluir:
-1. **Dataset Balanceado para Classificação de Notícias por Temas** (`dataset_classificacao_temas.tsv`), contendo **3.007 alegações e manchetes** catalogadas em **7 classes temáticas** com textos limpos e desprovidos de atalhos espúrios (*shortcut learning*).
-2. **Base consolidada unificada de saúde** (`factckbr_boatos_saude_consolidado.tsv`) combinando 5.359 transcrições originais de boatos e notícias autênticas com rotulagem booleana balanceada de veracidade (`is_fake`).
-3. **Pipelines de atualização contínua** com a API oficial do Google Fact Check Tools e sitemaps de agências brasileiras (Aos Fatos, Agência Lupa, Boatos.org, Estadão Verifica, UOL Confere, etc.).
-4. **Scrapers especializados e paralelos** para coleta concorrente de notícias e checagens por categoria (Esporte, Entretenimento, Tecnologia, Economia, Política, Geral e Saúde) a partir do Boatos.org, Agência Brasil (EBC) e Ministério da Saúde.
+1. **Dataset Balanceado para Classificação de Notícias por Temas** (`dataset_classificacao_temas.tsv`), contendo **3.069 alegações e manchetes** catalogadas em **7 classes temáticas** com textos limpos e desprovidos de atalhos espúrios (*shortcut learning*), com notícias de saúde atualizadas pelas ocorrências mais recentes (2025–2026).
+2. **Classificador Neuronal Quantizado em INT8 com ONNX Runtime** (`models/classifier_int8.onnx`), reduzindo o modelo em **74,9% em disco** (516 MB para 129 MB) com latência de **13,5 ms por amostra** em CPU e **76,9% de acurácia no teste**.
+3. **Base consolidada unificada de saúde** (`factckbr_boatos_saude_consolidado.tsv`) combinando 5.359 transcrições originais de boatos e notícias autênticas com rotulagem booleana balanceada de veracidade (`is_fake`).
+4. **Pipelines de atualização contínua** com a API oficial do Google Fact Check Tools e sitemaps de agências brasileiras (Aos Fatos, Agência Lupa, Boatos.org, Estadão Verifica, UOL Confere, etc.).
+5. **Scrapers especializados e paralelos** para coleta concorrente de notícias e checagens por categoria (Esporte, Entretenimento, Tecnologia, Economia, Política, Geral e Saúde) a partir do Boatos.org, Agência Brasil (EBC) e Ministério da Saúde.
 
 ---
 
@@ -15,7 +16,7 @@ Originalmente concebido como uma base de dados de checagens baseadas no esquema 
 ```
 FACTCK.BR/
 ├── datasets/                                 # Bases de dados em formato TSV (UTF-8) limpas e deduplicadas
-│   ├── dataset_classificacao_temas.tsv       # Dataset de treinamento temático (3.007 claims, 7 temas, balanceado)
+│   ├── dataset_classificacao_temas.tsv       # Dataset de classificação temática (3.069 claims, 7 temas)
 │   ├── factckbr_boatos_saude_consolidado.tsv # Base UNIFICADA de saúde (5.359 checagens/notícias com is_fake)
 │   ├── FACTCKBR_updated.tsv                  # Dataset principal atualizado (multi-agências: 2.888 checagens)
 │   ├── FACTCKBR_updated_saude.tsv            # Recorte especializado em saúde do FACTCK.BR (1.641 checagens)
@@ -33,7 +34,16 @@ FACTCK.BR/
 │   ├── ebc_geral.tsv                         # Notícias gerais da Agência Brasil / EBC (250 matérias)
 │   ├── ebc_direitos-humanos.tsv              # Notícias de direitos humanos/segurança da EBC (200 matérias)
 │   └── noticias_ms.tsv                       # Notícias do Ministério da Saúde (264 matérias oficiais)
+├── models/                                   # Modelos treinados, pesos ONNX e relatórios de benchmark
+│   ├── classifier_int8.onnx                  # Modelo final quantizado dinamicamente em INT8 (129 MB)
+│   ├── classifier_fp32.onnx                  # Modelo ONNX baseline FP32 (516 MB)
+│   ├── benchmark_report.json                 # Relatório quantitativo comparativo (latência, acurácia, F1)
+│   ├── id2label.json                         # Mapeamento índice -> nome da classe temática
+│   ├── label2id.json                         # Mapeamento nome da classe -> índice
+│   └── tokenizer/                            # Arquivos do tokenizador multilíngue
 ├── scripts/                                  # Scripts e pipelines executáveis
+│   ├── train_onnx_classifier.py              # Treinador PyTorch, exportador ONNX e quantizador INT8
+│   ├── predict_theme.py                      # Mecanismo de inferência rápido (CLI / Interativo / Arquivo)
 │   ├── prepare_theme_dataset.py              # Pipeline mestre de geração do dataset de classificação temática
 │   ├── classify_themes.py                    # Classificador temático de alta precisão (taxonomia 7 classes)
 │   ├── collect_all_categories.py             # Orquestrador para raspagem balanceada multi-categoria
@@ -55,7 +65,7 @@ FACTCK.BR/
 ## 📊 Dicionário dos Datasets
 
 ### 1. `datasets/dataset_classificacao_temas.tsv` (Classificação de Notícias por Tema)
-Base de dados especialmente preparada para **treinamento e benchmark de modelos de classificação de texto em tópicos jornalísticos**. Reúne **3.007 afirmações e manchetes** distribuídas em 7 categorias editoriais fundamentais:
+Base de dados especialmente preparada para **treinamento e benchmark de modelos de classificação de texto em tópicos jornalísticos**. Reúne **3.069 afirmações e manchetes** distribuídas em 7 categorias editoriais fundamentais:
 
 | Coluna | Descrição |
 | :--- | :--- |
@@ -69,14 +79,14 @@ Base de dados especialmente preparada para **treinamento e benchmark de modelos 
 #### 📈 Distribuição das Classes e Balanceamento de Veracidade:
 | Classe Temática (`tema`) | Quantidade | % do Total | Falso (`is_fake=True`) | Verdadeiro (`is_fake=False`) |
 | :--- | :---: | :---: | :---: | :---: |
-| **`saude`** | 550 | 18,3% | 291 (52,9%) | 259 (47,1%) |
-| **`politica`** | 550 | 18,3% | 358 (65,1%) | 192 (34,9%) |
-| **`esporte`** | 544 | 18,1% | 261 (48,0%) | 283 (52,0%) |
-| **`entretenimento`** | 537 | 17,9% | 276 (51,4%) | 261 (48,6%) |
-| **`economia`** | 345 | 11,5% | 62 (18,0%) | 283 (82,0%) |
-| **`tecnologia`** | 321 | 10,7% | 278 (86,6%) | 43 (13,4%) |
-| **`seguranca_publica`** | 160 | 5,3% | 80 (50,0%) | 80 (50,0%) |
-| **TOTAL** | **3.007** | **100%** | **1.606 (53,4%)** | **1.401 (46,6%)** |
+| **`saude`** | 550 | 17,9% | 275 (50,0%) | 275 (50,0%) |
+| **`politica`** | 550 | 17,9% | 379 (68,9%) | 171 (31,1%) |
+| **`esporte`** | 550 | 17,9% | 274 (49,8%) | 276 (50,2%) |
+| **`entretenimento`** | 550 | 17,9% | 289 (52,5%) | 261 (47,5%) |
+| **`economia`** | 362 | 11,8% | 76 (21,0%) | 286 (79,0%) |
+| **`tecnologia`** | 340 | 11,1% | 297 (87,4%) | 43 (12,6%) |
+| **`seguranca_publica`** | 167 | 5,4% | 87 (52,1%) | 80 (47,9%) |
+| **TOTAL** | **3.069** | **100%** | **1.677 (54,6%)** | **1.392 (45,4%)** |
 
 > **Garantia de Qualidade para Machine Learning:**
 > - **0 valores nulos** em todas as colunas.
@@ -193,6 +203,58 @@ Gera a base unificada especializada em saúde combinando checagens de agências,
 
 ```bash
 python scripts/consolidate_health_datasets.py
+```
+
+---
+
+### Script 5: Treinamento e Otimização com ONNX Runtime INT8 (`scripts/train_onnx_classifier.py`)
+
+Treina um classificador neural de ponta a ponta sobre o dataset temático (`datasets/dataset_classificacao_temas.tsv`), exporta para ONNX e aplica **quantização dinâmica de 8 bits (INT8)**:
+
+```bash
+# Treinamento com parâmetros padrão (3 épocas, batch size 16, lr 3e-5)
+python scripts/train_onnx_classifier.py --epochs 3 --batch-size 16 --lr 3e-5
+```
+
+#### ⚡ Resultados Comparativos do Benchmark (Conjunto de Teste - 307 amostras):
+
+| Métrica / Propriedade | ONNX FP32 | ONNX INT8 | Ganho / Otimização |
+| :--- | :---: | :---: | :---: |
+| **Tamanho em Disco** | **516,36 MB** | **129,45 MB** | **-74,9% (4x menor)** |
+| **Acurácia no Teste** | 77,85% | 76,87% | -0,98% (quase sem perdas) |
+| **Macro F1-Score** | 76,19% | 75,07% | -1,11% |
+| **Weighted F1-Score** | 78,01% | 77,15% | -0,86% |
+| **Latência Média por Amostra (CPU)** | 16,31 ms | **13,55 ms** | **1,20x mais rápido** |
+| **Throughput (Amostras / segundo)** | 61,3 s/sec | **73,8 s/sec** | **+20,4%** |
+
+#### 🎯 Desempenho por Tema no ONNX INT8:
+| Tema | Precisão | Revocação | F1-Score | Amostras de Teste |
+| :--- | :---: | :---: | :---: | :---: |
+| **Esporte** | 90,7% | 89,1% | **89,9%** | 55 |
+| **Entretenimento** | 84,0% | 76,4% | **80,0%** | 55 |
+| **Saúde** | 85,1% | 72,7% | **78,4%** | 55 |
+| **Economia** | 76,3% | 78,4% | **77,3%** | 37 |
+| **Tecnologia** | 68,3% | 82,4% | **74,7%** | 34 |
+| **Política** | 67,3% | 67,3% | **67,3%** | 55 |
+| **Segurança Pública** | 50,0% | 68,8% | **57,9%** | 16 |
+| **Média Ponderada Global** | **78,0%** | **76,9%** | **77,1%** | **307** |
+
+---
+
+### Script 6: Inferência Rápida com ONNX Runtime INT8 (`scripts/predict_theme.py`)
+
+Utilitário de linha de comando para classificação instantânea de claims em produção:
+
+```bash
+# 1. Inferência direta por texto
+python scripts/predict_theme.py "Ministério da Saúde distribui doses da vacina contra a dengue para estados prioritários"
+# 👉 Saída: SAUDE (Confiança: 96.0%, Latência: 11.3 ms)
+
+# 2. Modo interativo de teste no terminal
+python scripts/predict_theme.py --interactive
+
+# 3. Classificação em lote a partir de arquivo TSV ou CSV
+python scripts/predict_theme.py --input-file claims.tsv --output-file predicoes.tsv
 ```
 
 ---

@@ -1,0 +1,9 @@
+{
+  "economia": 0,
+  "entretenimento": 1,
+  "esporte": 2,
+  "politica": 3,
+  "saude": 4,
+  "seguranca_publica": 5,
+  "tecnologia": 6
+}

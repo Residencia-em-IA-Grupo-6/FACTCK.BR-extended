@@ -4,4 +4,6 @@ __pycache__/
 .DS_Store
 .*checkpoint*.json
 data/
-
+models/*.onnx
+models/**/*.safetensors
+models/**/*.bin
