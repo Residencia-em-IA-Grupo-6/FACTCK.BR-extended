@@ -301,6 +301,208 @@ BOUNDARY_SAMPLES = [
         "Author": "Agência Brasil",
         "is_fake": False,
         "URL": "https://factckbr.org/politica/tse-calendario-eleicoes"
+    },
+
+    # --- ESCOLAS / EDUCAÇÃO x POLÍTICA (Decisões de prefeitura, decretos, MEC, leis -> POLITICA) ---
+    {
+        "Claim": "escolas são fechadas no município de são paulo",
+        "tema": "politica",
+        "Titulo": "Prefeitura de São Paulo determina recesso e fechamento de escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/escolas-fechadas-sao-paulo-decreto"
+    },
+    {
+        "Claim": "escolas são fechadas",
+        "tema": "politica",
+        "Titulo": "Decisão administrativa sobre fechamento temporário de escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/escolas-fechadas-governo"
+    },
+    {
+        "Claim": "escolas são fechadas por decisão da prefeitura e decreto municipal",
+        "tema": "politica",
+        "Titulo": "Decreto da prefeitura suspende aulas em escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/decreto-prefeitura-escolas"
+    },
+    {
+        "Claim": "MEC anuncia novos investimentos e diretrizes para escolas públicas de todo o país",
+        "tema": "politica",
+        "Titulo": "MEC anuncia programas e recursos para escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/mec-investimentos-escolas"
+    },
+    {
+        "Claim": "MEC anuncia novos investimentos para escolas públicas",
+        "tema": "politica",
+        "Titulo": "Ministério da Educação destina recursos para escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/mec-recursos-escolas-publicas"
+    },
+    {
+        "Claim": "governador sanciona lei que implementa programa de escolas em tempo integral no estado",
+        "tema": "politica",
+        "Titulo": "Governo sanciona programa de escolas em tempo integral",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/lei-escolas-tempo-integral"
+    },
+    {
+        "Claim": "secretaria de educação altera calendário letivo de escolas municipais e estaduais",
+        "tema": "politica",
+        "Titulo": "Alteração no calendário escolar das redes públicas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/calendario-escolar-secretaria"
+    },
+    {
+        "Claim": "Congresso Nacional aprova diretrizes do plano nacional de educação para escolas públicas",
+        "tema": "politica",
+        "Titulo": "Congresso vota plano nacional de educação",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/politica/congresso-plano-educacao-escolas"
+    },
+
+    # --- ESCOLAS / EDUCAÇÃO x SEGURANÇA PÚBLICA (Violência, tiroteios, polícia, crimes -> SEGURANCA_PUBLICA) ---
+    {
+        "Claim": "escolas são fechadas por falta de segurança e tiroteio",
+        "tema": "seguranca_publica",
+        "Titulo": "Confrontos e tiroteios forçam fechamento de escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/seguranca/escolas-fechadas-tiroteio"
+    },
+    {
+        "Claim": "escolas municipais fecham as portas após confronto armado entre facções criminosas e operação policial",
+        "tema": "seguranca_publica",
+        "Titulo": "Operação policial e tiroteio suspendem aulas em escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/seguranca/tiroteio-faccoes-escolas-fechadas"
+    },
+    {
+        "Claim": "polícia militar reforça a ronda escolar após ameaças de ataques e violência contra colégios",
+        "tema": "seguranca_publica",
+        "Titulo": "PM reforça ronda escolar e segurança em colégios",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/seguranca/pm-ronda-escolar-seguranca"
+    },
+    {
+        "Claim": "aulas são suspensas em escolas da comunidade devido a toque de recolher imposto por traficantes",
+        "tema": "seguranca_publica",
+        "Titulo": "Toque de recolher suspende aulas em escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/seguranca/toque-recolher-escolas"
+    },
+    {
+        "Claim": "escolas são evacuadas após suspeita de explosivos e ameaça de bomba perto do portão",
+        "tema": "seguranca_publica",
+        "Titulo": "Polícia isola escola após alerta de bomba",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/seguranca/ameaca-bomba-escola-evacuada"
+    },
+
+    # --- ESCOLAS / EDUCAÇÃO x ECONOMIA (Salários, verbas, Fundeb, greves por reajuste -> ECONOMIA) ---
+    {
+        "Claim": "escolas municipais entram em greve por reajuste salarial",
+        "tema": "economia",
+        "Titulo": "Professores paralisam escolas exigindo reposição salarial",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/economia/greve-professores-reajuste-escolas"
+    },
+    {
+        "Claim": "professores de escolas públicas paralisam atividades cobrando pagamento do piso nacional da categoria",
+        "tema": "economia",
+        "Titulo": "Cobrança de piso salarial em escolas públicas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/economia/professores-piso-salarial-escolas"
+    },
+    {
+        "Claim": "corte no orçamento da educação atinge verba de merenda e reformas em escolas estaduais",
+        "tema": "economia",
+        "Titulo": "Restrição orçamentária atinge merenda escolar",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/economia/orcamento-merenda-escolas"
+    },
+    {
+        "Claim": "repasses do Fundeb somam bilhões de reais para pagamento de salários e infraestrutura de escolas",
+        "tema": "economia",
+        "Titulo": "Repasse do Fundeb para custeio de escolas",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/economia/fundeb-repasses-escolas"
+    },
+    {
+        "Claim": "mensalidades de escolas particulares registram aumento médio de nove por cento para o próximo ano",
+        "tema": "economia",
+        "Titulo": "Pesquisa aponta alta nas mensalidades escolares",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/economia/mensalidades-escolares-alta"
+    },
+
+    # --- ESCOLAS x SAÚDE (Vacinas, surtos virais, triagem médica -> SAUDE) ---
+    {
+        "Claim": "escolas dão vacinas contra o sarampo, HPV e tétano em campanha nacional de imunização infantil",
+        "tema": "saude",
+        "Titulo": "Campanha de vacinação atinge escolas públicas",
+        "Author": "Ministério da Saúde",
+        "is_fake": False,
+        "URL": "https://factckbr.org/saude/campanha-vacinacao-escolas"
+    },
+    {
+        "Claim": "escolas suspendem aulas presenciais devido a surto de meningite bacteriana e escarlatina em alunos",
+        "tema": "saude",
+        "Titulo": "Vigilância sanitária monitora surto de meningite em escolas",
+        "Author": "Ministério da Saúde",
+        "is_fake": False,
+        "URL": "https://factckbr.org/saude/surto-meningite-escolas"
+    },
+    {
+        "Claim": "postos de saúde realizam exames de vista e atendimento odontológico gratuito em escolas públicas",
+        "tema": "saude",
+        "Titulo": "Programa saúde na escola promove triagem",
+        "Author": "Ministério da Saúde",
+        "is_fake": False,
+        "URL": "https://factckbr.org/saude/programa-saude-na-escola"
+    },
+
+    # --- REFORÇO ESPORTE PURO (Futebol como modalidade esportiva e cultural -> ESPORTE) ---
+    {
+        "Claim": "futebol é a paixão nacional do Brasil e esporte mais popular praticado em todas as regiões",
+        "tema": "esporte",
+        "Titulo": "A história e popularidade do futebol no Brasil",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/esporte/futebol-paixao-nacional"
+    },
+    {
+        "Claim": "campeonato de futebol amador e torneios regionais reúnem dezenas de equipes no final de semana",
+        "tema": "esporte",
+        "Titulo": "Torneios de futebol amador movimentam comunidades",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/esporte/futebol-amador-torneios"
+    },
+    {
+        "Claim": "jogos escolares reúnem milhares de estudantes atletas em competições de futebol de salão e atletismo",
+        "tema": "esporte",
+        "Titulo": "Jogos escolares mobilizam estudantes no futebol",
+        "Author": "Agência Brasil",
+        "is_fake": False,
+        "URL": "https://factckbr.org/esporte/jogos-escolares-futebol"
     }
 ]
 

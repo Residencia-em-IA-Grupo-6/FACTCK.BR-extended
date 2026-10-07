@@ -217,28 +217,28 @@ Treina um classificador neural de ponta a ponta sobre o dataset temático (`data
 python scripts/train_onnx_classifier.py --epochs 3 --batch-size 16 --lr 3e-5
 ```
 
-#### ⚡ Resultados Comparativos do Benchmark Calibrado (Conjunto de Teste - 311 amostras):
+#### ⚡ Resultados Comparativos do Benchmark Calibrado (Conjunto de Teste - 313 amostras):
 
 | Métrica / Propriedade | ONNX FP32 | ONNX INT8 | Ganho / Otimização |
 | :--- | :---: | :---: | :---: |
 | **Tamanho em Disco** | **516,36 MB** | **129,45 MB** | **-74,9% (4x menor)** |
-| **Acurácia no Teste** | **82,96%** | **79,74%** | -3,22% |
-| **Macro F1-Score** | **80,16%** | **76,87%** | -3,29% |
-| **Weighted F1-Score** | **83,20%** | **79,98%** | -3,22% |
-| **Latência Média por Amostra (CPU)** | 14,58 ms | **12,28 ms** | **1,19x mais rápido** |
-| **Throughput (Amostras / segundo)** | 68,6 s/sec | **81,4 s/sec** | **+18,7%** |
+| **Acurácia no Teste** | **83,39%** | **83,39%** | **0,00% (Paridade Total)** 🎯 |
+| **Macro F1-Score** | **82,47%** | **82,42%** | -0,04% |
+| **Weighted F1-Score** | **83,37%** | **83,43%** | +0,06% |
+| **Latência Média por Amostra (CPU)** | 17,20 ms | **14,72 ms** | **1,17x mais rápido** |
+| **Throughput (Amostras / segundo)** | 58,1 s/sec | **67,9 s/sec** | **+16,9%** |
 
-#### 🎯 Desempenho por Tema no ONNX INT8 (Após Fine-Tuning de Fronteira):
+#### 🎯 Desempenho por Tema no ONNX INT8 (Após Calibração Funcional):
 | Tema | Precisão | Revocação | F1-Score | Amostras de Teste |
 | :--- | :---: | :---: | :---: | :---: |
-| **Esporte** | 95,9% | 83,9% | **89,5%** | 56 |
-| **Saúde** | 82,5% | **91,2%** | **86,7%** | 57 |
-| **Entretenimento** | 89,4% | 76,4% | **82,4%** | 55 |
-| **Política** | 80,8% | 75,0% | **77,8%** | 56 |
-| **Economia** | 67,4% | 80,6% | **73,4%** | 36 |
-| **Tecnologia** | 66,7% | 76,5% | **71,2%** | 34 |
-| **Segurança Pública** | 55,6% | 58,8% | **57,1%** | 17 |
-| **Média Ponderada Global** | **80,2%** | **79,7%** | **80,0%** | **311** |
+| **Esporte** | 89,5% | 91,1% | **90,3%** | 56 |
+| **Saúde** | 86,0% | 86,0% | **86,0%** | 57 |
+| **Política** | 88,2% | 80,4% | **84,1%** | 56 |
+| **Entretenimento** | 91,1% | 74,5% | **82,0%** | 55 |
+| **Tecnologia** | 70,5% | 91,2% | **79,5%** | 34 |
+| **Segurança Pública** | 68,0% | **94,4%** | **79,1%** | 18 |
+| **Economia** | 79,4% | 73,0% | **76,1%** | 37 |
+| **Média Ponderada Global** | **84,7%** | **83,4%** | **83,4%** | **313** |
 
 ---
 

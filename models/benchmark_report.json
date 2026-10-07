@@ -1,9 +1,9 @@
 {
   "dataset": {
-    "total_samples": 3103,
-    "train_samples": 2482,
-    "val_samples": 310,
-    "test_samples": 311,
+    "total_samples": 3127,
+    "train_samples": 2501,
+    "val_samples": 313,
+    "test_samples": 313,
     "classes": [
       "economia",
       "entretenimento",
@@ -17,151 +17,151 @@
   "model_comparison": {
     "fp32": {
       "size_mb": 516.36,
-      "accuracy": 0.8296,
-      "macro_f1": 0.8016,
-      "weighted_f1": 0.832,
-      "mean_latency_ms": 14.58,
-      "median_latency_ms": 13.67,
-      "p95_latency_ms": 20.25,
-      "throughput_samples_sec": 68.61
+      "accuracy": 0.8339,
+      "macro_f1": 0.8247,
+      "weighted_f1": 0.8337,
+      "mean_latency_ms": 17.2,
+      "median_latency_ms": 17.11,
+      "p95_latency_ms": 19.45,
+      "throughput_samples_sec": 58.14
     },
     "int8": {
       "size_mb": 129.45,
-      "accuracy": 0.7974,
-      "macro_f1": 0.7687,
-      "weighted_f1": 0.7998,
-      "mean_latency_ms": 12.28,
-      "median_latency_ms": 12.12,
-      "p95_latency_ms": 13.58,
-      "throughput_samples_sec": 81.42
+      "accuracy": 0.8339,
+      "macro_f1": 0.8242,
+      "weighted_f1": 0.8343,
+      "mean_latency_ms": 14.72,
+      "median_latency_ms": 14.43,
+      "p95_latency_ms": 15.66,
+      "throughput_samples_sec": 67.94
     },
     "gains": {
       "size_reduction_pct": 74.93,
-      "latency_speedup_x": 1.19,
-      "accuracy_difference": -0.0322,
-      "macro_f1_difference": -0.0329
+      "latency_speedup_x": 1.17,
+      "accuracy_difference": 0.0,
+      "macro_f1_difference": -0.0004
     }
   },
   "classification_report_int8": {
     "economia": {
-      "precision": 0.6744186046511628,
-      "recall": 0.8055555555555556,
-      "f1-score": 0.7341772151898734,
-      "support": 36.0
+      "precision": 0.7941176470588235,
+      "recall": 0.7297297297297297,
+      "f1-score": 0.7605633802816901,
+      "support": 37.0
     },
     "entretenimento": {
-      "precision": 0.8936170212765957,
-      "recall": 0.7636363636363637,
-      "f1-score": 0.8235294117647058,
+      "precision": 0.9111111111111111,
+      "recall": 0.7454545454545455,
+      "f1-score": 0.82,
       "support": 55.0
     },
     "esporte": {
-      "precision": 0.9591836734693877,
-      "recall": 0.8392857142857143,
-      "f1-score": 0.8952380952380953,
+      "precision": 0.8947368421052632,
+      "recall": 0.9107142857142857,
+      "f1-score": 0.9026548672566371,
       "support": 56.0
     },
     "politica": {
-      "precision": 0.8076923076923077,
-      "recall": 0.75,
-      "f1-score": 0.7777777777777778,
+      "precision": 0.8823529411764706,
+      "recall": 0.8035714285714286,
+      "f1-score": 0.8411214953271028,
       "support": 56.0
     },
     "saude": {
-      "precision": 0.8253968253968254,
-      "recall": 0.9122807017543859,
-      "f1-score": 0.8666666666666667,
+      "precision": 0.8596491228070176,
+      "recall": 0.8596491228070176,
+      "f1-score": 0.8596491228070176,
       "support": 57.0
     },
     "seguranca_publica": {
-      "precision": 0.5555555555555556,
-      "recall": 0.5882352941176471,
-      "f1-score": 0.5714285714285714,
-      "support": 17.0
+      "precision": 0.68,
+      "recall": 0.9444444444444444,
+      "f1-score": 0.7906976744186046,
+      "support": 18.0
     },
     "tecnologia": {
-      "precision": 0.6666666666666666,
-      "recall": 0.7647058823529411,
-      "f1-score": 0.7123287671232876,
+      "precision": 0.7045454545454546,
+      "recall": 0.9117647058823529,
+      "f1-score": 0.7948717948717948,
       "support": 34.0
     },
-    "accuracy": 0.797427652733119,
+    "accuracy": 0.8338658146964856,
     "macro avg": {
-      "precision": 0.7689329506726431,
-      "recall": 0.7748142159575153,
-      "f1-score": 0.7687352150269968,
-      "support": 311.0
+      "precision": 0.8180733026863057,
+      "recall": 0.8436183232291149,
+      "f1-score": 0.8242226192804065,
+      "support": 313.0
     },
     "weighted avg": {
-      "precision": 0.8087838940239219,
-      "recall": 0.797427652733119,
-      "f1-score": 0.7998290999333141,
-      "support": 311.0
+      "precision": 0.8441055507048246,
+      "recall": 0.8338658146964856,
+      "f1-score": 0.8343467109913351,
+      "support": 313.0
     }
   },
   "confusion_matrix_int8": [
     [
-      29,
-      1,
+      27,
+      0,
       0,
       1,
       3,
+      3,
+      3
+    ],
+    [
       1,
+      41,
+      2,
+      1,
+      4,
+      1,
+      5
+    ],
+    [
+      1,
+      1,
+      51,
+      0,
+      0,
+      2,
       1
     ],
     [
+      4,
+      1,
       3,
-      42,
+      45,
       0,
-      3,
-      3,
-      2,
+      1,
       2
     ],
     [
-      2,
-      2,
-      47,
-      2,
       0,
-      0,
-      3
+      2,
+      1,
+      2,
+      49,
+      1,
+      2
     ],
     [
-      3,
-      1,
-      1,
-      42,
-      3,
-      2,
-      4
-    ],
-    [
-      0,
-      0,
-      1,
-      1,
-      52,
-      0,
-      3
-    ],
-    [
-      2,
       1,
       0,
-      3,
-      1,
-      10,
+      0,
+      0,
+      0,
+      17,
       0
     ],
     [
-      4,
       0,
       0,
       0,
+      2,
       1,
-      3,
-      26
+      0,
+      31
     ]
   ]
 }
