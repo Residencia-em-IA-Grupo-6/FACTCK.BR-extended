@@ -45,13 +45,19 @@ class ThemePredictor:
             self.model_type = "ONNX FP32"
         else:
             # Tentar baixar automaticamente da Release do GitHub
-            release_url = "https://github.com/Residencia-em-IA-Grupo-6/FACTCK.BR-extended/releases/download/v1.0.0/classifier_int8.onnx"
-            print(f"Modelo ONNX não encontrado em {self.model_dir}. Baixando da Release do GitHub...")
+            release_url = "https://github.com/Residencia-em-IA-Grupo-6/FACTCK.BR-extended/releases/download/v1.0.0/classifier_int8.tar.gz"
+            tar_path = self.model_dir / "classifier_int8.tar.gz"
+            print(f"Modelo ONNX não encontrado em {self.model_dir}. Baixando da Release v1.0.0 do GitHub...")
             self.model_dir.mkdir(parents=True, exist_ok=True)
             import urllib.request
+            import tarfile
             try:
-                urllib.request.urlretrieve(release_url, int8_path)
-                print(f"Download concluído com sucesso: {int8_path}")
+                urllib.request.urlretrieve(release_url, tar_path)
+                with tarfile.open(tar_path, "r:gz") as tar:
+                    tar.extractall(path=self.model_dir)
+                if tar_path.exists():
+                    tar_path.unlink()
+                print(f"Download e descompactação concluídos com sucesso: {int8_path}")
                 self.model_path = int8_path
                 self.model_type = "ONNX INT8"
             except Exception as e:
