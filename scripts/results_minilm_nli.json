@@ -1,0 +1,385 @@
+{
+  "model": "MiniLMv2-NLI-ONNX",
+  "file_size_mb": 102.43909454345703,
+  "accuracy_3class": 20.0,
+  "accuracy_binary": 5.0,
+  "avg_latency_ms": 11.598366560065188,
+  "peak_mem_mb": 0.14743614196777344,
+  "items": [
+    {
+      "id": 1,
+      "claim": "Água morna com limão em jejum queima gordura e emagrece",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.1292,
+        "neutral": 0.7016,
+        "contradiction": 0.1691
+      },
+      "latency_ms": 32.39,
+      "exact_match": false
+    },
+    {
+      "id": 2,
+      "claim": "Adesivo de Mounjaro por 29 reais seca a barriga em 3 semanas",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.0017,
+        "neutral": 0.98,
+        "contradiction": 0.0182
+      },
+      "latency_ms": 8.7,
+      "exact_match": false
+    },
+    {
+      "id": 3,
+      "claim": "Chá de folha de graviola cura o câncer e substitui quimioterapia",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.3477,
+        "neutral": 0.4717,
+        "contradiction": 0.1806
+      },
+      "latency_ms": 8.48,
+      "exact_match": false
+    },
+    {
+      "id": 4,
+      "claim": "Mistura caseira de bicarbonato com vinagre cura diabetes tipo 2",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.0413,
+        "neutral": 0.8824,
+        "contradiction": 0.0763
+      },
+      "latency_ms": 11.88,
+      "exact_match": false
+    },
+    {
+      "id": 5,
+      "claim": "Vacina de febre amarela transmite o vírus HIV",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.0497,
+        "neutral": 0.8644,
+        "contradiction": 0.086
+      },
+      "latency_ms": 6.74,
+      "exact_match": false
+    },
+    {
+      "id": 6,
+      "claim": "Beber água sanitária diluída previne infecção por vírus",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.0754,
+        "neutral": 0.8722,
+        "contradiction": 0.0524
+      },
+      "latency_ms": 8.11,
+      "exact_match": false
+    },
+    {
+      "id": 7,
+      "claim": "Gengibre com alho cura hipertensão e dispensa remédios de pressão",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.1013,
+        "neutral": 0.6339,
+        "contradiction": 0.2649
+      },
+      "latency_ms": 9.61,
+      "exact_match": false
+    },
+    {
+      "id": 8,
+      "claim": "Engolir semente de melancia entope o apêndice e causa cirurgia",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.1539,
+        "neutral": 0.7944,
+        "contradiction": 0.0517
+      },
+      "latency_ms": 13.87,
+      "exact_match": false
+    },
+    {
+      "id": 9,
+      "claim": "Uso de forno micro-ondas altera DNA dos alimentos e causa leucemia",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.1261,
+        "neutral": 0.8278,
+        "contradiction": 0.0461
+      },
+      "latency_ms": 14.98,
+      "exact_match": false
+    },
+    {
+      "id": 10,
+      "claim": "Passar pasta de dente em queimadura recente acelera a cicatrização",
+      "ground_truth": "FAKE",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "contradiction",
+      "probabilities": {
+        "entailment": 0.1651,
+        "neutral": 0.7521,
+        "contradiction": 0.0828
+      },
+      "latency_ms": 12.35,
+      "exact_match": false
+    },
+    {
+      "id": 11,
+      "claim": "A Anvisa determinou a suspensão e recolhimento de lotes de azeite adulterado",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "FAKE",
+      "predicted_nli": "contradiction",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0762,
+        "neutral": 0.2159,
+        "contradiction": 0.7079
+      },
+      "latency_ms": 9.63,
+      "exact_match": false
+    },
+    {
+      "id": 12,
+      "claim": "O Ministério da Saúde incluiu a vacina contra a dengue no SUS",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "VERDADEIRO",
+      "predicted_nli": "entailment",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.4953,
+        "neutral": 0.4726,
+        "contradiction": 0.0321
+      },
+      "latency_ms": 11.56,
+      "exact_match": true
+    },
+    {
+      "id": 13,
+      "claim": "O uso indiscriminado de antibióticos favorece o surgimento de superbactérias",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0652,
+        "neutral": 0.7443,
+        "contradiction": 0.1905
+      },
+      "latency_ms": 16.13,
+      "exact_match": false
+    },
+    {
+      "id": 14,
+      "claim": "A prática regular de atividade física reduz o risco de infarto e AVC",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0902,
+        "neutral": 0.5263,
+        "contradiction": 0.3835
+      },
+      "latency_ms": 17.94,
+      "exact_match": false
+    },
+    {
+      "id": 15,
+      "claim": "O consumo crônico e sem prescrição de anti-inflamatórios pode lesionar os rins",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.1494,
+        "neutral": 0.7235,
+        "contradiction": 0.1271
+      },
+      "latency_ms": 12.25,
+      "exact_match": false
+    },
+    {
+      "id": 16,
+      "claim": "A vacinação contra o HPV previne o desenvolvimento de câncer de colo de útero",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0829,
+        "neutral": 0.8884,
+        "contradiction": 0.0286
+      },
+      "latency_ms": 8.58,
+      "exact_match": false
+    },
+    {
+      "id": 17,
+      "claim": "O tabagismo ativo é a principal causa evitável de câncer de pulmão",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "FAKE",
+      "predicted_nli": "contradiction",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0289,
+        "neutral": 0.4282,
+        "contradiction": 0.5429
+      },
+      "latency_ms": 12.48,
+      "exact_match": false
+    },
+    {
+      "id": 18,
+      "claim": "O medicamento Mounjaro é administrado por via injetável para diabetes tipo 2",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0591,
+        "neutral": 0.8745,
+        "contradiction": 0.0664
+      },
+      "latency_ms": 7.79,
+      "exact_match": false
+    },
+    {
+      "id": 19,
+      "claim": "Hipertensão não controlada eleva as chances de acidente vascular cerebral",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "FAKE",
+      "predicted_nli": "contradiction",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.0672,
+        "neutral": 0.2411,
+        "contradiction": 0.6917
+      },
+      "latency_ms": 10.31,
+      "exact_match": false
+    },
+    {
+      "id": 20,
+      "claim": "A OMS recomenda aleitamento materno exclusivo até os 6 meses de vida",
+      "ground_truth": "VERDADEIRO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "entailment",
+      "probabilities": {
+        "entailment": 0.007,
+        "neutral": 0.9403,
+        "contradiction": 0.0527
+      },
+      "latency_ms": 11.36,
+      "exact_match": false
+    },
+    {
+      "id": 21,
+      "claim": "Tomar café faz mal para o coração",
+      "ground_truth": "SUSPEITO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "neutral",
+      "probabilities": {
+        "entailment": 0.0223,
+        "neutral": 0.563,
+        "contradiction": 0.4147
+      },
+      "latency_ms": 6.72,
+      "exact_match": true
+    },
+    {
+      "id": 22,
+      "claim": "Chá de camomila trata depressão severa",
+      "ground_truth": "SUSPEITO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "neutral",
+      "probabilities": {
+        "entailment": 0.1522,
+        "neutral": 0.6559,
+        "contradiction": 0.1919
+      },
+      "latency_ms": 6.9,
+      "exact_match": true
+    },
+    {
+      "id": 23,
+      "claim": "Doses altas de vitamina C impedem qualquer resfriado no inverno",
+      "ground_truth": "SUSPEITO",
+      "predicted_verdict": "FAKE",
+      "predicted_nli": "contradiction",
+      "expected_nli": "neutral",
+      "probabilities": {
+        "entailment": 0.0148,
+        "neutral": 0.3093,
+        "contradiction": 0.6758
+      },
+      "latency_ms": 6.88,
+      "exact_match": false
+    },
+    {
+      "id": 24,
+      "claim": "Suplemento de creatina estraga os rins de pessoas jovens e saudáveis",
+      "ground_truth": "SUSPEITO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "neutral",
+      "probabilities": {
+        "entailment": 0.1151,
+        "neutral": 0.7444,
+        "contradiction": 0.1405
+      },
+      "latency_ms": 8.51,
+      "exact_match": true
+    },
+    {
+      "id": 25,
+      "claim": "Comer ovos diariamente é comprovadamente prejudicial à saúde arterial",
+      "ground_truth": "SUSPEITO",
+      "predicted_verdict": "SUSPEITO",
+      "predicted_nli": "neutral",
+      "expected_nli": "neutral",
+      "probabilities": {
+        "entailment": 0.0353,
+        "neutral": 0.7763,
+        "contradiction": 0.1885
+      },
+      "latency_ms": 15.82,
+      "exact_match": true
+    }
+  ]
+}

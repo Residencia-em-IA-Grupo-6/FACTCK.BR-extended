@@ -8,3 +8,5 @@ models/*.onnx
 models/*.tar.gz
 models/**/*.safetensors
 models/**/*.bin
+models/bertimbau_fake_br/
+models/jevk5_lite/
