@@ -1,35 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-scrape_boatos_categories.py
+scrape_boatos.py
 
-Scraper concorrente para coleta de categorias temáticas do portal Boatos.org
-(esporte, entretenimento, tecnologia, politica, etc.) para composição do
-dataset balanceado de classificação de notícias por temas.
+Scraper concorrente unificado para o portal Boatos.org.
+Permite coletar matérias e alegações desmentidas por categoria individual ou em lote.
 
 Uso:
-  python scripts/scrape_boatos_categories.py --category esporte --limit 250
-  python scripts/scrape_boatos_categories.py --category entretenimento --limit 250
-  python scripts/scrape_boatos_categories.py --category tecnologia --limit 250
+  # Coletar categoria específica (ex: saude, esporte, entretenimento, tecnologia, politica)
+  python scripts/scrape_boatos.py --category saude --limit 250
+  python scripts/scrape_boatos.py --category esporte --limit 250
+
+  # Coletar todas as categorias principais de uma vez
+  python scripts/scrape_boatos.py --all --limit 250
 """
 
-import os
-import re
-import csv
-import json
-import time
-import signal
 import argparse
-from pathlib import Path
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import csv
+from datetime import datetime
+import json
+import os
+from pathlib import Path
+import re
+import signal
+import sys
+import time
+from typing import List, Optional, Set
 
 import requests
 from bs4 import BeautifulSoup
 
 HEADERS = {
     'User-Agent': (
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
         'AppleWebKit/537.36 (KHTML, like Gecko) '
         'Chrome/124.0.0.0 Safari/537.36'
     ),
@@ -45,7 +49,15 @@ TSV_COLUMNS = [
     'Resumo_Boato',
     'Desmentido',
     'Tags',
-    'Categoria'
+    'Categoria',
+]
+
+DEFAULT_CATEGORIES = [
+    'saude',
+    'politica',
+    'esporte',
+    'entretenimento',
+    'tecnologia',
 ]
 
 INTERRUPTED = False
@@ -54,7 +66,7 @@ INTERRUPTED = False
 def signal_handler(sig, frame):
     global INTERRUPTED
     INTERRUPTED = True
-    print("\n[Aviso] Interrupção detectada (Ctrl+C). Finalizando tarefas ativas...")
+    print("\n[Aviso] Interrupção detectada (Ctrl+C). Finalizando requisições pendentes e salvando...")
 
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -67,7 +79,7 @@ def sanitize_text(text: str) -> str:
     return cleaned.strip()
 
 
-def fetch_url(url: str, session: requests.Session = None, max_retries: int = 3, timeout: int = 12):
+def fetch_url(url: str, session: Optional[requests.Session] = None, max_retries: int = 3, timeout: int = 15):
     requester = session if session is not None else requests
     for attempt in range(1, max_retries + 1):
         if INTERRUPTED:
@@ -77,7 +89,8 @@ def fetch_url(url: str, session: requests.Session = None, max_retries: int = 3, 
             if resp.status_code == 200:
                 return resp
             elif resp.status_code == 429:
-                time.sleep(attempt * 2.0)
+                wait_s = attempt * 2.0
+                time.sleep(wait_s)
             elif resp.status_code >= 500:
                 time.sleep(attempt * 1.5)
             else:
@@ -87,8 +100,8 @@ def fetch_url(url: str, session: requests.Session = None, max_retries: int = 3, 
     return None
 
 
-def extract_article(url: str, session: requests.Session, category: str):
-    """Extrai uma matéria individual do Boatos.org."""
+def extract_article(url: str, session: requests.Session, category: str) -> Optional[dict]:
+    """Extrai campos estruturados de uma matéria do Boatos.org."""
     resp = fetch_url(url, session=session)
     if not resp or resp.status_code != 200:
         return None
@@ -97,16 +110,18 @@ def extract_article(url: str, session: requests.Session, category: str):
 
     # 1. Título
     h1 = soup.find('h1')
-    title = h1.get_text(strip=True) if h1 else ''
-    title = sanitize_text(title)
+    title = sanitize_text(h1.get_text(strip=True)) if h1 else ''
 
     # 2. Data
     time_tag = soup.find('time')
-    date = time_tag.get('datetime', '')[:10] if time_tag else ''
+    date = ''
+    if time_tag:
+        dt = time_tag.get('datetime', '')
+        date = dt[:10] if dt else sanitize_text(time_tag.get_text(strip=True))
 
     # 3. Tags
-    tags = [t.get_text(strip=True) for t in soup.find_all('a', rel='tag')]
-    tags_str = ', '.join(tags)
+    tags = [sanitize_text(t.get_text(strip=True)) for t in soup.find_all('a', rel='tag')]
+    tags_str = ', '.join([t for t in tags if t])
 
     # 4. Texto falso em blockquote
     bqs = soup.find_all('blockquote')
@@ -123,7 +138,8 @@ def extract_article(url: str, session: requests.Session, category: str):
             t = sanitize_text(p.get_text(separator=' ', strip=True))
             if not t:
                 continue
-            if t.lower().startswith('boato –') or t.lower().startswith('boato -'):
+            t_low = t.lower()
+            if t_low.startswith('boato –') or t_low.startswith('boato -') or t_low.startswith('boato:'):
                 summary = t
             else:
                 debunk_paragraphs.append(t)
@@ -140,16 +156,15 @@ def extract_article(url: str, session: requests.Session, category: str):
         'Resumo_Boato': summary,
         'Desmentido': debunk_text,
         'Tags': tags_str,
-        'Categoria': category
+        'Categoria': category,
     }
 
 
-def get_urls_from_page(category: str, page_num: int, session: requests.Session):
-    """Retorna links de artigos na página de listagem da categoria."""
+def get_urls_from_page(category: str, page_num: int, session: requests.Session) -> List[str]:
+    """Retorna links de matérias a partir da listagem da categoria."""
     url = f"https://www.boatos.org/{category}/page/{page_num}/" if page_num > 1 else f"https://www.boatos.org/{category}/"
     resp = fetch_url(url, session=session)
     if not resp or resp.status_code != 200:
-        # Tentar formato de query string caso /page/X falhe
         url_query = f"https://www.boatos.org/{category}/?paged={page_num}"
         resp = fetch_url(url_query, session=session)
         if not resp or resp.status_code != 200:
@@ -164,30 +179,34 @@ def get_urls_from_page(category: str, page_num: int, session: requests.Session):
     return list(dict.fromkeys(links))
 
 
-def scrape_category(category: str, output_file: Path, limit: int = 300, workers: int = 8):
+def scrape_category(category: str, output_file: Path, limit: int = 300, workers: int = 8) -> int:
+    """Executa a coleta concorrente de uma categoria específica."""
+    cat = category.lower().strip()
     print("=" * 70)
-    print(f"SCRAPING BOATOS.ORG — CATEGORIA: {category.upper()}")
-    print(f"Destino: {output_file} | Limite: {limit} matérias | Workers: {workers}")
+    print(f"SCRAPING BOATOS.ORG — CATEGORIA: {cat.upper()}")
+    print(f"Destino: {output_file} | Limite: {limit} | Workers: {workers}")
     print("=" * 70)
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    existing_urls = set()
+    existing_urls: Set[str] = set()
+
     if output_file.exists():
-        with open(output_file, 'r', encoding='utf-8') as f:
+        with open(output_file, 'r', encoding='utf-8', errors='replace') as f:
             reader = csv.DictReader(f, delimiter='\t')
             for row in reader:
-                if row.get('URL'):
-                    existing_urls.add(row['URL'])
-        print(f"Encontradas {len(existing_urls)} matérias já salvas.")
+                u = row.get('URL')
+                if u:
+                    existing_urls.add(u.strip())
+        print(f"Encontradas {len(existing_urls)} matérias já salvas em cache.")
 
     session = requests.Session()
-    adapter = requests.adapters.HTTPAdapter(pool_connections=16, pool_maxsize=16, max_retries=1)
+    adapter = requests.adapters.HTTPAdapter(pool_connections=workers * 2, pool_maxsize=workers * 2, max_retries=1)
     session.mount('https://', adapter)
 
     page = 1
     total_saved = len(existing_urls)
     file_mode = 'a' if existing_urls else 'w'
-    
+
     with open(output_file, file_mode, encoding='utf-8', newline='') as f_out:
         writer = csv.DictWriter(f_out, fieldnames=TSV_COLUMNS, delimiter='\t')
         if not existing_urls:
@@ -195,9 +214,9 @@ def scrape_category(category: str, output_file: Path, limit: int = 300, workers:
             f_out.flush()
 
         while total_saved < limit and not INTERRUPTED:
-            urls = get_urls_from_page(category, page, session)
+            urls = get_urls_from_page(cat, page, session)
             if not urls:
-                print(f"Sem mais matérias na página {page}. Encerrando.")
+                print(f"Fim das páginas disponíveis na página {page}.")
                 break
 
             new_urls = [u for u in urls if u not in existing_urls]
@@ -208,7 +227,7 @@ def scrape_category(category: str, output_file: Path, limit: int = 300, workers:
                 continue
 
             with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = {executor.submit(extract_article, u, session, category): u for u in new_urls}
+                futures = {executor.submit(extract_article, u, session, cat): u for u in new_urls}
                 for fut in as_completed(futures):
                     if INTERRUPTED:
                         break
@@ -221,27 +240,63 @@ def scrape_category(category: str, output_file: Path, limit: int = 300, workers:
                         if total_saved >= limit:
                             break
 
-            print(f"  -> Total coletado até agora: {total_saved}/{limit}")
+            print(f"  -> Progresso: {total_saved}/{limit}")
             page += 1
-            time.sleep(0.5)
+            time.sleep(0.3)
 
-    print(f"\n[OK] Coleta de {category} concluída! Total salvo: {total_saved} em {output_file}\n")
+    print(f"[OK] Categoria '{cat}' finalizada com {total_saved} registros em {output_file}\n")
+    return total_saved
 
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    parser = argparse.ArgumentParser(description="Scraper multi-categoria do Boatos.org")
-    parser.add_argument("--category", "-c", required=True, help="Categoria (ex: esporte, entretenimento, tecnologia)")
-    parser.add_argument("--limit", "-l", type=int, default=300, help="Limite de matérias a coletar")
-    parser.add_argument("--workers", "-w", type=int, default=8, help="Número de threads simultâneas")
-    parser.add_argument("--output", "-o", type=str, default=None, help="Caminho do arquivo TSV de saída")
+    parser = argparse.ArgumentParser(description="Scraper concorrente unificado do Boatos.org")
+    parser.add_argument(
+        "--category", "-c",
+        type=str,
+        default=None,
+        help="Categoria específica (ex: saude, esporte, politica, tecnologia, entretenimento)",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Coleta sequencial de todas as categorias padrão",
+    )
+    parser.add_argument(
+        "--limit", "-l",
+        type=int,
+        default=300,
+        help="Limite máximo de matérias por categoria (padrão: 300)",
+    )
+    parser.add_argument(
+        "--workers", "-w",
+        type=int,
+        default=8,
+        help="Número de threads simultâneas para requisições HTTP (padrão: 8)",
+    )
+    parser.add_argument(
+        "--output", "-o",
+        type=str,
+        default=None,
+        help="Caminho personalizado para o arquivo TSV de saída",
+    )
+
     args = parser.parse_args()
 
-    cat = args.category.lower().strip()
-    out = Path(args.output) if args.output else repo_root / "datasets" / f"boatos_{cat}.tsv"
-    scrape_category(category=cat, output_file=out, limit=args.limit, workers=args.workers)
+    if args.all:
+        for cat in DEFAULT_CATEGORIES:
+            out = Path(args.output) if args.output else repo_root / "datasets" / f"boatos_{cat}.tsv"
+            scrape_category(cat, out, limit=args.limit, workers=args.workers)
+            if INTERRUPTED:
+                break
+    elif args.category:
+        cat = args.category.lower().strip()
+        out = Path(args.output) if args.output else repo_root / "datasets" / f"boatos_{cat}.tsv"
+        scrape_category(cat, out, limit=args.limit, workers=args.workers)
+    else:
+        parser.print_help()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
-

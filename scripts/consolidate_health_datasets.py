@@ -362,7 +362,7 @@ def main():
     default_factckbr_saude = repo_root / "datasets" / "FACTCKBR_updated_saude.tsv"
     default_noticias_ms = repo_root / "datasets" / "noticias_ms.tsv"
     default_ebc_saude = repo_root / "datasets" / "ebc_saude.tsv"
-    default_output = repo_root / "datasets" / "factckbr_boatos_saude_consolidado.tsv"
+    default_output = repo_root / "datasets" / "saude_consolidado_unificado.tsv"
 
     parser = argparse.ArgumentParser(
         description="Consolida os datasets de saúde boatos_saude, FACTCKBR_updated_saude, noticias_ms e ebc_saude."

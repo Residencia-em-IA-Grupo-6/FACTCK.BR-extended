@@ -44,9 +44,21 @@ class ThemePredictor:
             self.model_path = fp32_path
             self.model_type = "ONNX FP32"
         else:
-            raise FileNotFoundError(
-                f"Nenhum modelo ONNX encontrado em {self.model_dir}. Execute o script train_onnx_classifier.py primeiro."
-            )
+            # Tentar baixar automaticamente da Release do GitHub
+            release_url = "https://github.com/Residencia-em-IA-Grupo-6/FACTCK.BR-extended/releases/download/v1.0.0/classifier_int8.onnx"
+            print(f"Modelo ONNX não encontrado em {self.model_dir}. Baixando da Release do GitHub...")
+            self.model_dir.mkdir(parents=True, exist_ok=True)
+            import urllib.request
+            try:
+                urllib.request.urlretrieve(release_url, int8_path)
+                print(f"Download concluído com sucesso: {int8_path}")
+                self.model_path = int8_path
+                self.model_type = "ONNX INT8"
+            except Exception as e:
+                raise FileNotFoundError(
+                    f"Nenhum modelo ONNX encontrado em {self.model_dir} e falha ao baixar da Release ({e}). "
+                    f"Baixe manualmente de {release_url} ou execute o treino."
+                )
 
         tokenizer_dir = self.model_dir / "tokenizer"
         if not tokenizer_dir.exists():
@@ -68,7 +80,7 @@ class ThemePredictor:
         sess_opts.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
         self.session = ort.InferenceSession(str(self.model_path), sess_opts, providers=["CPUExecutionProvider"])
 
-    def predict(self, text: str, max_length: int = 128) -> Dict:
+    def predict(self, text: str, max_length: int = 128, health_threshold: float = 0.50) -> Dict:
         t0 = time.perf_counter()
         inputs = self.tokenizer(
             text,
@@ -95,9 +107,14 @@ class ThemePredictor:
         # Ordenar por maior probabilidade
         sorted_probs = dict(sorted(prob_dict.items(), key=lambda item: item[1], reverse=True))
 
+        health_prob = float(prob_dict.get("saude", 0.0))
+        is_health = bool(health_prob >= health_threshold or (best_theme == "saude" and health_prob >= 0.40))
+
         return {
             "claim": text,
             "theme": best_theme,
+            "is_health": is_health,
+            "health_probability": health_prob,
             "confidence": best_score,
             "probabilities": sorted_probs,
             "latency_ms": latency_ms,
@@ -121,6 +138,7 @@ def main():
     parser.add_argument("--output-file", type=str, default=None, help="Caminho de saída para os resultados da predição")
     parser.add_argument("--model-dir", type=str, default="models", help="Diretório onde o modelo ONNX reside")
     parser.add_argument("--fp32", action="store_true", help="Força o uso do modelo FP32 em vez do INT8")
+    parser.add_argument("--health-threshold", type=float, default=0.50, help="Limiar de probabilidade do Gatekeeper de Saúde (padrão 0.50)")
     args = parser.parse_args()
 
     predictor = ThemePredictor(model_dir=args.model_dir, prefer_int8=not args.fp32)
@@ -168,17 +186,19 @@ def main():
         return
 
     if args.text:
-        res = predictor.predict(args.text)
+        res = predictor.predict(args.text, health_threshold=args.health_threshold)
         print("\n" + "=" * 65)
-        print(f"Claim: \"{res['claim']}\"")
+        print(f"Texto: \"{res['claim']}\"")
         print(f"Engine: {res['engine']}")
+        gate_status = "✅ SIM (Relevante para Saúde)" if res["is_health"] else "❌ NÃO (Fora do Domínio de Saúde)"
+        print(f"Gatekeeper de Saúde: {gate_status} ({res['health_probability']*100:.1f}%)")
         print(f"Tema Predito: {res['theme'].upper()} (Confiança: {res['confidence']*100:.1f}%)")
         print(f"Latência de Inferência: {res['latency_ms']:.2f} ms")
         print("-" * 65)
         print("Distribuição de Probabilidades:")
         for theme, prob in res["probabilities"].items():
             bar = format_bar(prob, 20)
-            print(f"  {theme:<18} [{bar}] {prob*100:>5.1f}%")
+            print(f"  {theme:<24} [{bar}] {prob*100:>5.1f}%")
         print("=" * 65)
     else:
         parser.print_help()

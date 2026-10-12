@@ -1,0 +1,220 @@
+{
+  "timestamp": "2026-10-11 20:29:37",
+  "model_type": "ONNX INT8",
+  "sample_counts": {
+    "total": 300,
+    "health_myths": 220,
+    "non_health_controls": 80
+  },
+  "gatekeeper_metrics": {
+    "accuracy": 0.7567,
+    "precision": 0.8155,
+    "recall_sensitivity": 0.8636,
+    "specificity": 0.4625,
+    "f1_score": 0.8389,
+    "true_positives": 190,
+    "false_negatives": 30,
+    "true_negatives": 37,
+    "false_positives": 43
+  },
+  "confidence_levels": {
+    "mean_health_prob_on_myths": 0.6267,
+    "median_health_prob_on_myths": 0.696,
+    "mean_health_prob_on_controls": 0.3726
+  },
+  "latency_ms": {
+    "mean": 22.89,
+    "median": 22.83,
+    "p95": 28.26
+  },
+  "subcategory_breakdown": {
+    "doencas_cronicas": {
+      "total": 30,
+      "detected": 27,
+      "recall": 0.9,
+      "mean_health_prob": 0.6327
+    },
+    "medicamentos_farmacologia": {
+      "total": 35,
+      "detected": 31,
+      "recall": 0.8857,
+      "mean_health_prob": 0.6397
+    },
+    "nutricao_emagrecimento": {
+      "total": 35,
+      "detected": 30,
+      "recall": 0.8571,
+      "mean_health_prob": 0.6566
+    },
+    "oncologia_cancer": {
+      "total": 30,
+      "detected": 24,
+      "recall": 0.8,
+      "mean_health_prob": 0.6037
+    },
+    "primeiros_socorros_sintomas": {
+      "total": 30,
+      "detected": 27,
+      "recall": 0.9,
+      "mean_health_prob": 0.6326
+    },
+    "remedios_caseiros": {
+      "total": 30,
+      "detected": 27,
+      "recall": 0.9,
+      "mean_health_prob": 0.6257
+    },
+    "viroses_infectologia": {
+      "total": 30,
+      "detected": 24,
+      "recall": 0.8,
+      "mean_health_prob": 0.5888
+    }
+  },
+  "false_negatives_count": 30,
+  "false_positives_count": 43,
+  "false_negatives_sample": [
+    {
+      "text": "Adoçante aspartame causa esclerose múltipla e lesões cerebrais imediatas",
+      "subcategory": "nutricao_emagrecimento",
+      "predicted_theme": "ciencia_tecnologia",
+      "confidence": 0.3228115439414978,
+      "health_probability": 0.25065577030181885
+    },
+    {
+      "text": "Sal rosa do Himalaia não aumenta a pressão arterial e pode ser consumido à vontade",
+      "subcategory": "nutricao_emagrecimento",
+      "predicted_theme": "saude",
+      "confidence": 0.3246290385723114,
+      "health_probability": 0.3246290385723114
+    },
+    {
+      "text": "Chá verde em cápsula substitui exercícios físicos e seca a barriga",
+      "subcategory": "nutricao_emagrecimento",
+      "predicted_theme": "saude",
+      "confidence": 0.2460765540599823,
+      "health_probability": 0.2460765540599823
+    },
+    {
+      "text": "Gengibre com limão elimina o colesterol ruim em menos de 48 horas",
+      "subcategory": "nutricao_emagrecimento",
+      "predicted_theme": "saude",
+      "confidence": 0.3430893123149872,
+      "health_probability": 0.3430893123149872
+    },
+    {
+      "text": "Ficar sem comer por 24 horas desintoxica o pâncreas e reseta o organismo",
+      "subcategory": "nutricao_emagrecimento",
+      "predicted_theme": "ciencia_tecnologia",
+      "confidence": 0.3197053074836731,
+      "health_probability": 0.31399601697921753
+    },
+    {
+      "text": "Ivermectina cura e previne qualquer tipo de infecção viral ou respiratória",
+      "subcategory": "medicamentos_farmacologia",
+      "predicted_theme": "saude",
+      "confidence": 0.37174192070961,
+      "health_probability": 0.37174192070961
+    },
+    {
+      "text": "Vacina de RNA mensageiro altera o DNA e introduz chips de rastreamento",
+      "subcategory": "medicamentos_farmacologia",
+      "predicted_theme": "ciencia_tecnologia",
+      "confidence": 0.3948785960674286,
+      "health_probability": 0.35601532459259033
+    },
+    {
+      "text": "Aspirina previne qualquer derrame cerebral mesmo sem indicação médica",
+      "subcategory": "medicamentos_farmacologia",
+      "predicted_theme": "saude",
+      "confidence": 0.3890054225921631,
+      "health_probability": 0.3890054225921631
+    },
+    {
+      "text": "Remédio para pressão alta pode ser suspenso assim que os sintomas somem",
+      "subcategory": "medicamentos_farmacologia",
+      "predicted_theme": "ciencia_tecnologia",
+      "confidence": 0.28012359142303467,
+      "health_probability": 0.2215905338525772
+    },
+    {
+      "text": "Usar sutiã com aro de metal bloqueia a circulação linfática e causa tumor",
+      "subcategory": "oncologia_cancer",
+      "predicted_theme": "ciencia_tecnologia",
+      "confidence": 0.32098692655563354,
+      "health_probability": 0.26527124643325806
+    }
+  ],
+  "false_positives_sample": [
+    {
+      "text": "Governo federal vai confiscar a poupança de todos os correntistas no fim do mês",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.4498612582683563,
+      "health_probability": 0.4498612582683563
+    },
+    {
+      "text": "Urnas eletrônicas foram fraudadas e código fonte secreto foi alterado no tribunal",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.5588679313659668,
+      "health_probability": 0.5588679313659668
+    },
+    {
+      "text": "Senado aprova lei secreta que extingue o décimo terceiro salário dos trabalhadores",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.5331040620803833,
+      "health_probability": 0.5331040620803833
+    },
+    {
+      "text": "Decreto presidencial determina fim do direito de propriedade privada no país",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.4539489150047302,
+      "health_probability": 0.4539489150047302
+    },
+    {
+      "text": "Deputados federais votam aumento de salário de quinhentos por cento na calada da noite",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.6135290265083313,
+      "health_probability": 0.6135290265083313
+    },
+    {
+      "text": "Exército nacional assume o controle de ministérios e fecha o congresso em Brasília",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.48687052726745605,
+      "health_probability": 0.48687052726745605
+    },
+    {
+      "text": "Tribunal Superior Eleitoral cancela título de eleitor de quem não cadastrou biometria",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.4819248616695404,
+      "health_probability": 0.4819248616695404
+    },
+    {
+      "text": "Ministro do STF renuncia ao cargo após pressão de manifestantes em Brasília",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.4336299002170563,
+      "health_probability": 0.4336299002170563
+    },
+    {
+      "text": "Presidente assina medida provisória que proíbe manifestações políticas nas capitais",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.5103064775466919,
+      "health_probability": 0.5103064775466919
+    },
+    {
+      "text": "Prefeitura decreta intervenção militar no transporte coletivo municipal",
+      "true_label": "politica_governo",
+      "predicted_theme": "saude",
+      "confidence": 0.5096622705459595,
+      "health_probability": 0.5096622705459595
+    }
+  ]
+}

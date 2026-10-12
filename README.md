@@ -15,47 +15,32 @@ Originalmente concebido como uma base de dados de checagens baseadas no esquema 
 
 ```
 FACTCK.BR/
-├── datasets/                                 # Bases de dados em formato TSV (UTF-8) limpas e deduplicadas
-│   ├── dataset_classificacao_temas.tsv       # Dataset de classificação temática (3.069 claims, 7 temas)
-│   ├── factckbr_boatos_saude_consolidado.tsv # Base UNIFICADA de saúde (5.359 checagens/notícias com is_fake)
+├── datasets/                                 # Datasets consolidados em formato TSV/Parquet
+│   ├── saude_consolidado_unificado.tsv       # Base UNIFICADA consolidada de saúde (5.735 checagens/notícias com is_fake)
 │   ├── FACTCKBR_updated.tsv                  # Dataset principal atualizado (multi-agências: 2.888 checagens)
-│   ├── FACTCKBR_updated_saude.tsv            # Recorte especializado em saúde do FACTCK.BR (1.641 checagens)
 │   ├── FACTCKBR_old.tsv                      # Dataset histórico original de referência (WebMedia 2019: 1.334 checagens)
-│   ├── boatos_saude.tsv                      # Matérias de saúde do Boatos.org (1.287 matérias com boato íntegro)
-│   ├── boatos_esporte.tsv                    # Boatos de esportes do Boatos.org (250 checagens)
-│   ├── boatos_entretenimento.tsv             # Boatos de cultura e famosos do Boatos.org (250 checagens)
-│   ├── boatos_tecnologia.tsv                 # Boatos de tecnologia e golpes do Boatos.org (250 checagens)
-│   ├── boatos_politica.tsv                   # Boatos de política do Boatos.org (250 checagens)
-│   ├── ebc_saude.tsv                         # Notícias de saúde da Agência Brasil / EBC (2.167 matérias)
-│   ├── ebc_esportes.tsv                      # Notícias de esportes da Agência Brasil / EBC (250 matérias)
-│   ├── ebc_cultura.tsv                       # Notícias de cultura/entretenimento da Agência Brasil / EBC (250 matérias)
-│   ├── ebc_economia.tsv                      # Notícias de economia da Agência Brasil / EBC (250 matérias)
-│   ├── ebc_politica.tsv                      # Notícias de política da Agência Brasil / EBC (250 matérias)
-│   ├── ebc_geral.tsv                         # Notícias gerais da Agência Brasil / EBC (250 matérias)
-│   ├── ebc_direitos-humanos.tsv              # Notícias de direitos humanos/segurança da EBC (200 matérias)
-│   └── noticias_ms.tsv                       # Notícias do Ministério da Saúde (264 matérias oficiais)
+│   ├── dataset_classificacao_temas.tsv       # Dataset de temas legados (3.127 claims, 7 temas)
+│   └── topic_classification/                 # Dataset temático unificado e balanceado de 8 classes
+│       ├── topic_dataset_8classes.parquet    # Base consolidada (24.000 amostras equilibradas, 3.000 por tema)
+│       ├── topic_dataset_8classes.tsv        # Exportação tabular delimitada por tabulações
+│       └── README.md                         # Dicionário das 8 classes e metodologia
 ├── models/                                   # Modelos treinados, pesos ONNX e relatórios de benchmark
 │   ├── classifier_int8.onnx                  # Modelo final quantizado dinamicamente em INT8 (129 MB)
 │   ├── classifier_fp32.onnx                  # Modelo ONNX baseline FP32 (516 MB)
 │   ├── benchmark_report.json                 # Relatório quantitativo comparativo (latência, acurácia, F1)
-│   ├── id2label.json                         # Mapeamento índice -> nome da classe temática
-│   ├── label2id.json                         # Mapeamento nome da classe -> índice
+│   ├── id2label.json                         # Mapeamento índice -> tema (8 classes)
+│   ├── label2id.json                         # Mapeamento tema -> índice
+│   ├── pytorch_distilbert/                   # Checkpoint PyTorch compatível com Linux e Mac M4
 │   └── tokenizer/                            # Arquivos do tokenizador multilíngue
-├── scripts/                                  # Scripts e pipelines executáveis
-│   ├── train_onnx_classifier.py              # Treinador PyTorch, exportador ONNX e quantizador INT8
-│   ├── predict_theme.py                      # Mecanismo de inferência rápido (CLI / Interativo / Arquivo)
-│   ├── add_boundary_cases.py                 # Injetor de casos de fronteira (hard samples) para calibração
-│   ├── prepare_theme_dataset.py              # Pipeline mestre de geração do dataset de classificação temática
-│   ├── classify_themes.py                    # Classificador temático de alta precisão (taxonomia 7 classes)
-│   ├── collect_all_categories.py             # Orquestrador para raspagem balanceada multi-categoria
-│   ├── scrape_boatos_categories.py           # Scraper multi-categoria do Boatos.org
-│   ├── scrape_ebc_categories.py              # Scraper multi-categoria da Agência Brasil (EBC)
-│   ├── consolidate_health_datasets.py        # Consolidador unificado de saúde (Boatos.org + FACTCKBR + MS + EBC)
-│   ├── update_factckbr.py                    # Atualizador multi-fonte com suporte a Google API e Sitemaps
-│   ├── classify_health.py                    # Classificador e extrator temático de checagens de saúde
-│   ├── scrape_boatos_saude.py                # Scraper com suporte a retomada (resume) para o Boatos.org
+├── scripts/                                  # Pipelines e scripts executáveis unificados
+│   ├── scrape_boatos.py                      # Scraper concorrente unificado do Boatos.org (--category / --all)
+│   ├── scrape_ebc.py                         # Scraper concorrente unificado da Agência Brasil / EBC (--category / --all)
 │   ├── scrape_noticias_ms.py                 # Scraper oficial de notícias do Ministério da Saúde (gov.br)
-│   └── scrape_ebc_saude.py                   # Scraper oficial de notícias de saúde da Agência Brasil (EBC)
+│   ├── update_factckbr.py                    # Atualizador multi-fonte com suporte a Google API e Sitemaps
+│   ├── consolidate_health_datasets.py        # Consolidador unificado de saúde (Boatos.org + FACTCKBR + MS + EBC)
+│   ├── build_unified_topic_dataset.py        # Construtor da base de 8 classes balanceada (24.000 amostras)
+│   ├── train_onnx_classifier.py              # Treinador PyTorch (DirectML/MPS/CUDA), exportador ONNX e quantizador INT8
+│   └── predict_theme.py                      # Inferência ultra-rápida (Gatekeeper de Saúde + 8 temas)
 ├── requirements.txt                          # Dependências do Python
 ├── LICENSE                                   # Licença MIT
 └── README.md                                 # Documentação geral do repositório
@@ -97,8 +82,8 @@ Base de dados especialmente preparada para **treinamento e benchmark de modelos 
 
 ---
 
-### 2. `datasets/factckbr_boatos_saude_consolidado.tsv` (Base Unificada de Saúde)
-Consolidação completa e padronizada das checagens de saúde do Boatos.org, do FACTCK.BR, do Ministério da Saúde e da Agência Brasil/EBC (5.359 registros únicos):
+### 2. `datasets/saude_consolidado_unificado.tsv` (Base Unificada de Saúde)
+Consolidação completa e padronizada das checagens de saúde do Boatos.org, do FACTCK.BR, do Ministério da Saúde e da Agência Brasil/EBC (5.735 registros únicos):
 
 | Coluna | Descrição |
 | :--- | :--- |
@@ -108,10 +93,11 @@ Consolidação completa e padronizada das checagens de saúde do Boatos.org, do 
 | `Author` | Agência / veículo responsável (*Agência Brasil*, *Boatos.org*, *Ministério da Saúde*, *Aos Fatos*, etc.) |
 | `Claim` | Texto integral do boato / alegação analisada |
 | `reviewBody` | Texto completo do desmentido / checagem explicativa ou matéria oficial |
+| `origem_dataset` | Fonte catalogada original de proveniência dos dados |
 | `is_fake` | Booleano declarando se a alegação é falsa (`True`) ou verdadeira (`False`) |
 
 **Composição:**
-- **Total de registros**: 5.359 (2.904 falsos / 2.455 verdadeiros).
+- **Total de registros**: 5.735 checagens e notícias de saúde com veredito padronizado.
 
 ---
 
@@ -129,6 +115,11 @@ Bases tabulares contendo checagens estruturadas de agências de checagem profiss
 | `ratingValue` | Nota numérica atribuída pela agência |
 | `bestRating` | Escala máxima da agência |
 | `alternativeName` | Veredito textual (ex.: Falso, Verdadeiro, Exagerado, Enganoso) |
+
+---
+
+### 4. `datasets/topic_classification/topic_dataset.parquet` (Classificação Temática Multi-Fonte - 11 Classes)
+Dataset expandido com **38.877 amostras** particionadas de forma estratificada (`train`: 31.125, `val`: 3.876, `test`: 3.876) em 11 tópicos jornalísticos e de conversa geral. Consulte [README.md](file:///home/gabe/repos/FACTCK.BR-extended/datasets/topic_classification/README.md) na respectiva pasta para detalhes completos do esquema e classes.
 
 ---
 
@@ -173,27 +164,26 @@ print(tema)  # 'esporte'
 
 ---
 
-### Script 3: Scrapers Multi-Categoria do Boatos.org e da EBC
+### Script 3: Scrapers Concorrentes Unificados do Boatos.org e da EBC
 
-Permitem coletar novas matérias por editoria temática de forma concorrente via `ThreadPoolExecutor`:
+Permitem coletar matérias por categoria específica ou em lote de forma concorrente via `ThreadPoolExecutor`:
 
 ```bash
-# Coletar notícias do Boatos.org por categoria
-python scripts/scrape_boatos_categories.py --category esporte --limit 250
-python scripts/scrape_boatos_categories.py --category entretenimento --limit 250
-python scripts/scrape_boatos_categories.py --category tecnologia --limit 250
-python scripts/scrape_boatos_categories.py --category politica --limit 250
+# Scraper Boatos.org (por categoria ou todas)
+python scripts/scrape_boatos.py --category saude --limit 250
+python scripts/scrape_boatos.py --category esporte --limit 250
+python scripts/scrape_boatos.py --all --limit 250
 
-# Coletar notícias da Agência Brasil (EBC) por editoria
-python scripts/scrape_ebc_categories.py --category esportes --limit 250
-python scripts/scrape_ebc_categories.py --category cultura --limit 250
-python scripts/scrape_ebc_categories.py --category economia --limit 250
-python scripts/scrape_ebc_categories.py --category politica --limit 250
-python scripts/scrape_ebc_categories.py --category geral --limit 250
-python scripts/scrape_ebc_categories.py --category direitos-humanos --limit 200
+# Scraper EBC / Agência Brasil (por categoria ou todas)
+python scripts/scrape_ebc.py --category saude --limit 250
+python scripts/scrape_ebc.py --category esportes --limit 250
+python scripts/scrape_ebc.py --all --limit 250
 
-# Executar a coleta balanceada de todas as categorias em lote
-python scripts/collect_all_categories.py
+# Scraper oficial do Ministério da Saúde
+python scripts/scrape_noticias_ms.py
+
+# Atualizador multi-agências FACTCK.BR
+python scripts/update_factckbr.py
 ```
 
 ---
@@ -210,35 +200,48 @@ python scripts/consolidate_health_datasets.py
 
 ### Script 5: Treinamento e Otimização com ONNX Runtime INT8 (`scripts/train_onnx_classifier.py`)
 
-Treina um classificador neural de ponta a ponta sobre o dataset temático (`datasets/dataset_classificacao_temas.tsv`), exporta para ONNX e aplica **quantização dinâmica de 8 bits (INT8)**:
+Treina um classificador neural de ponta a ponta sobre o dataset temático de 8 classes (`datasets/topic_classification/topic_dataset_8classes.parquet`), exporta para ONNX e aplica **quantização dinâmica de 8 bits (INT8)**:
 
 ```bash
-# Treinamento com parâmetros padrão (3 épocas, batch size 16, lr 3e-5)
-python scripts/train_onnx_classifier.py --epochs 3 --batch-size 16 --lr 3e-5
+# Treinamento com aceleração AMD (DirectML), Apple Silicon (MPS) ou CUDA:
+python scripts/train_onnx_classifier.py \
+    --dataset datasets/topic_classification/topic_dataset_8classes.parquet \
+    --device auto \
+    --epochs 1 \
+    --samples-per-class 1000 \
+    --batch-size 8 \
+    --grad-accum-steps 4 \
+    --max-len 64
 ```
 
-#### ⚡ Resultados Comparativos do Benchmark Calibrado (Conjunto de Teste - 313 amostras):
+#### ⚡ Resultados Comparativos do Benchmark Calibrado (Conjunto de Teste Cego - 800 amostras):
 
 | Métrica / Propriedade | ONNX FP32 | ONNX INT8 | Ganho / Otimização |
 | :--- | :---: | :---: | :---: |
-| **Tamanho em Disco** | **516,36 MB** | **129,45 MB** | **-74,9% (4x menor)** |
-| **Acurácia no Teste** | **83,39%** | **83,39%** | **0,00% (Paridade Total)** 🎯 |
-| **Macro F1-Score** | **82,47%** | **82,42%** | -0,04% |
-| **Weighted F1-Score** | **83,37%** | **83,43%** | +0,06% |
-| **Latência Média por Amostra (CPU)** | 17,20 ms | **14,72 ms** | **1,17x mais rápido** |
-| **Throughput (Amostras / segundo)** | 58,1 s/sec | **67,9 s/sec** | **+16,9%** |
+| **Tamanho em Disco** | **516,35 MB** | **129,44 MB** | **-74,9% (4x menor)** 🎯 |
+| **Acurácia no Teste** | **81,50%** | **80,63%** | -0,87% |
+| **Macro F1-Score** | **81,61%** | **80,88%** | -0,73% |
+| **Weighted F1-Score** | **81,61%** | **80,88%** | -0,73% |
+| **Latência Média por Amostra (CPU)** | 27,74 ms | **22,30 ms** | **1,24x mais rápido** |
+| **Throughput (Amostras / segundo)** | 36,1 s/sec | **44,8 s/sec** | **+24,4%** |
 
-#### 🎯 Desempenho por Tema no ONNX INT8 (Após Calibração Funcional):
+#### 🏥 Desempenho do Gatekeeper de Saúde no ONNX INT8:
+* **Precisão:** **94,25%** (confiabilidade muito alta ao prever saúde)
+* **Sensibilidade (Recall):** **82,00%** (capacidade de capturar queixas e relatos médicos)
+* **F1-Score Saúde:** **87,70%**
+
+#### 🎯 Desempenho por Tema no ONNX INT8 (8 Classes):
 | Tema | Precisão | Revocação | F1-Score | Amostras de Teste |
 | :--- | :---: | :---: | :---: | :---: |
-| **Esporte** | 89,5% | 91,1% | **90,3%** | 56 |
-| **Saúde** | 86,0% | 86,0% | **86,0%** | 57 |
-| **Política** | 88,2% | 80,4% | **84,1%** | 56 |
-| **Entretenimento** | 91,1% | 74,5% | **82,0%** | 55 |
-| **Tecnologia** | 70,5% | 91,2% | **79,5%** | 34 |
-| **Segurança Pública** | 68,0% | **94,4%** | **79,1%** | 18 |
-| **Economia** | 79,4% | 73,0% | **76,1%** | 37 |
-| **Média Ponderada Global** | **84,7%** | **83,4%** | **83,4%** | **313** |
+| **esportes** | **95,7%** | 89,0% | **92,2%** | 100 |
+| **conversa_geral** | **93,8%** | 90,0% | **91,8%** | 100 |
+| **saude** | **94,3%** | 82,0% | **87,7%** | 100 |
+| **economia_negocios** | 81,1% | 77,0% | **79,0%** | 100 |
+| **entretenimento_cultura** | 72,9% | 78,0% | **75,4%** | 100 |
+| **cotidiano_seguranca** | 74,3% | 75,0% | **74,6%** | 100 |
+| **ciencia_tecnologia** | 70,9% | 78,0% | **74,3%** | 100 |
+| **politica_governo** | 68,5% | 76,0% | **72,0%** | 100 |
+| **Média Global** | **82,1%** | **80,6%** | **80,9%** | **800** |
 
 ---
 

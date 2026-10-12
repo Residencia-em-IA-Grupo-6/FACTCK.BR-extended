@@ -11,6 +11,7 @@ Treinamento de classificador neural de temas para claims jornalísticas com:
 """
 
 import argparse
+import gc
 import json
 import logging
 import os
@@ -51,29 +52,28 @@ logger = logging.getLogger(__name__)
 
 class TextClaimDataset(Dataset):
     def __init__(self, texts: List[str], labels: List[int], tokenizer, max_length: int = 128):
-        self.texts = texts
-        self.labels = labels
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-
-    def __len__(self):
-        return len(self.texts)
-
-    def __getitem__(self, idx):
-        text = str(self.texts[idx])
-        encoding = self.tokenizer(
-            text,
+        self.labels = torch.tensor(labels, dtype=torch.long) if labels is not None else None
+        logger.info(f"Pré-tokenizando {len(texts)} textos com max_length={max_length}...")
+        enc = tokenizer(
+            [str(t) for t in texts],
             truncation=True,
             padding="max_length",
-            max_length=self.max_length,
+            max_length=max_length,
             return_tensors="pt",
         )
+        self.input_ids = enc["input_ids"]
+        self.attention_mask = enc["attention_mask"]
+
+    def __len__(self):
+        return len(self.input_ids)
+
+    def __getitem__(self, idx):
         item = {
-            "input_ids": encoding["input_ids"].squeeze(0),
-            "attention_mask": encoding["attention_mask"].squeeze(0),
+            "input_ids": self.input_ids[idx],
+            "attention_mask": self.attention_mask[idx],
         }
         if self.labels is not None:
-            item["labels"] = torch.tensor(self.labels[idx], dtype=torch.long)
+            item["labels"] = self.labels[idx]
         return item
 
 
@@ -84,36 +84,100 @@ def set_seed(seed: int = 42):
         torch.cuda.manual_seed_all(seed)
 
 
-def get_device() -> torch.device:
-    if torch.backends.mps.is_available():
-        logger.info("Usando acelerador Apple Silicon (MPS)")
-        return torch.device("mps")
-    elif torch.cuda.is_available():
+def enable_directml_support():
+    """Habilita compatibilidade de tensores para o backend DirectML."""
+    _orig_masked_fill = torch.Tensor.masked_fill
+
+    def _patched_masked_fill(self, mask, value):
+        if isinstance(value, torch.Tensor):
+            if value.numel() == 1:
+                value = value.item()
+            elif value.device != self.device:
+                value = value.to(self.device)
+        return _orig_masked_fill(self, mask, value)
+
+    torch.Tensor.masked_fill = _patched_masked_fill
+
+
+def get_device(requested_device: str = "auto") -> torch.device:
+    req = str(requested_device).lower().strip()
+    if req == "cpu":
+        logger.info("Usando CPU (forçado)")
+        return torch.device("cpu")
+    elif req == "cuda" and torch.cuda.is_available():
         logger.info("Usando acelerador NVIDIA (CUDA)")
         return torch.device("cuda")
+    elif req == "mps" and torch.backends.mps.is_available():
+        logger.info("Usando acelerador Apple Silicon (MPS)")
+        return torch.device("mps")
+    elif req in ["directml", "dml"]:
+        try:
+            import torch_directml
+            enable_directml_support()
+            dml_device = torch_directml.device()
+            dev_name = torch_directml.device_name(0) if torch_directml.device_count() > 0 else "DirectML"
+            logger.info(f"Usando acelerador AMD / DirectML: {dev_name} ({dml_device})")
+            return dml_device
+        except Exception as e:
+            logger.warning(f"Falha ao carregar DirectML ({e}). Usando fallback...")
+
+    # Modo AUTO: tenta DirectML (AMD/Intel), depois CUDA, depois MPS, fallback CPU
+    try:
+        import torch_directml
+        if torch_directml.is_available():
+            enable_directml_support()
+            dml_device = torch_directml.device()
+            dev_name = torch_directml.device_name(0) if torch_directml.device_count() > 0 else "DirectML"
+            logger.info(f"Usando acelerador AMD / DirectML detectado: {dev_name} ({dml_device})")
+            return dml_device
+    except Exception:
+        pass
+
+    if torch.cuda.is_available():
+        logger.info("Usando acelerador NVIDIA (CUDA)")
+        return torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        logger.info("Usando acelerador Apple Silicon (MPS)")
+        return torch.device("mps")
     else:
         logger.info("Usando CPU")
         return torch.device("cpu")
 
 
-def train_epoch(model, dataloader, optimizer, scheduler, device):
+def train_epoch(model, dataloader, optimizer, scheduler, device, grad_accum_steps: int = 1):
     model.train()
     total_loss = 0.0
-    for batch in dataloader:
-        optimizer.zero_grad()
+    optimizer.zero_grad(set_to_none=True)
+    t_start = time.time()
+    num_batches = len(dataloader)
+
+    for step, batch in enumerate(dataloader, start=1):
         input_ids = batch["input_ids"].to(device)
         attention_mask = batch["attention_mask"].to(device)
         labels = batch["labels"].to(device)
 
         outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
-        loss = outputs.loss
+        loss = outputs.loss / grad_accum_steps
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        optimizer.step()
-        scheduler.step()
 
-        total_loss += loss.item()
-    return total_loss / len(dataloader)
+        if step % grad_accum_steps == 0 or step == num_batches:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            optimizer.step()
+            scheduler.step()
+            optimizer.zero_grad(set_to_none=True)
+
+        total_loss += loss.item() * grad_accum_steps
+
+        # Liberar referências para evitar fragmentação no DirectML/GPU
+        del outputs, loss, input_ids, attention_mask, labels
+
+        if step % 100 == 0 or step == num_batches:
+            elapsed = time.time() - t_start
+            speed = step / elapsed if elapsed > 0 else 0
+            cur_loss = total_loss / step
+            logger.info(f"  [Batch {step:4d}/{num_batches}] - Loss atual: {cur_loss:.4f} ({speed:.1f} batches/s)")
+
+    return total_loss / num_batches
 
 
 def evaluate_pytorch(model, dataloader, device) -> Tuple[float, np.ndarray, np.ndarray]:
@@ -135,6 +199,9 @@ def evaluate_pytorch(model, dataloader, device) -> Tuple[float, np.ndarray, np.n
             preds = torch.argmax(logits, dim=-1).cpu().numpy()
             all_preds.extend(preds)
             all_labels.extend(labels.cpu().numpy())
+
+            del outputs, logits, input_ids, attention_mask, labels
+        gc.collect()
 
     avg_loss = total_loss / len(dataloader)
     return avg_loss, np.array(all_preds), np.array(all_labels)
@@ -190,8 +257,20 @@ def main():
     parser.add_argument(
         "--dataset",
         type=str,
-        default="datasets/dataset_classificacao_temas.tsv",
-        help="Caminho para o dataset TSV de classificação",
+        default="datasets/topic_classification/topic_dataset.parquet",
+        help="Caminho para o dataset (Parquet ou TSV) de classificação",
+    )
+    parser.add_argument(
+        "--text-col",
+        type=str,
+        default="text",
+        help="Nome da coluna contendo o texto (ex: 'text' ou 'Claim')",
+    )
+    parser.add_argument(
+        "--label-col",
+        type=str,
+        default="topic",
+        help="Nome da coluna de classe/tema (ex: 'topic' ou 'tema')",
     )
     parser.add_argument(
         "--model-name",
@@ -205,11 +284,25 @@ def main():
         default="models",
         help="Diretório onde os modelos e artefatos serão salvos",
     )
-    parser.add_argument("--epochs", type=int, default=3, help="Número de épocas de treinamento")
+    parser.add_argument("--epochs", type=int, default=2, help="Número de épocas de treinamento")
     parser.add_argument("--batch-size", type=int, default=16, help="Tamanho do lote (batch size)")
+    parser.add_argument("--grad-accum-steps", type=int, default=2, help="Passos de acumulação de gradientes")
     parser.add_argument("--lr", type=float, default=3e-5, help="Taxa de aprendizado inicial")
-    parser.add_argument("--max-len", type=int, default=128, help="Comprimento máximo de tokens")
+    parser.add_argument("--max-len", type=int, default=96, help="Comprimento máximo de tokens")
     parser.add_argument("--seed", type=int, default=42, help="Seed para reproducibilidade")
+    parser.add_argument(
+        "--samples-per-class",
+        type=int,
+        default=0,
+        help="Limitar quantidade de amostras balanceadas por classe (0 = usar todas)",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="auto",
+        choices=["auto", "directml", "dml", "cuda", "mps", "cpu"],
+        help="Acelerador de computação (auto, directml, cuda, mps, cpu)",
+    )
     args = parser.parse_args()
 
     set_seed(args.seed)
@@ -218,23 +311,54 @@ def main():
 
     # 1. Carregar dataset
     logger.info(f"Carregando dataset de {args.dataset}...")
-    df = pd.read_csv(args.dataset, sep="\t")
+    dataset_path = Path(args.dataset)
+    if dataset_path.suffix.lower() == ".parquet":
+        df = pd.read_parquet(dataset_path)
+    else:
+        sep = "\t" if dataset_path.suffix.lower() in [".tsv", ".tab"] else ","
+        df = pd.read_csv(dataset_path, sep=sep)
     logger.info(f"Total de registros carregados: {len(df)}")
 
-    # Validar colunas
-    assert "Claim" in df.columns and "tema" in df.columns, "O dataset deve conter 'Claim' e 'tema'"
-    df = df.dropna(subset=["Claim", "tema"]).copy()
-    df["Claim"] = df["Claim"].astype(str).str.strip()
-    df["tema"] = df["tema"].astype(str).str.strip()
+    # Validar e identificar colunas de texto e rótulo
+    text_col = args.text_col
+    if text_col not in df.columns:
+        if "text" in df.columns:
+            text_col = "text"
+        elif "Claim" in df.columns:
+            text_col = "Claim"
+        else:
+            raise KeyError(f"Coluna de texto '{text_col}' não encontrada. Opções: {df.columns.tolist()}")
+
+    label_col = args.label_col
+    if label_col not in df.columns:
+        if "topic" in df.columns:
+            label_col = "topic"
+        elif "tema" in df.columns:
+            label_col = "tema"
+        else:
+            raise KeyError(f"Coluna de classe '{label_col}' não encontrada. Opções: {df.columns.tolist()}")
+
+    logger.info(f"Usando coluna de texto: '{text_col}' | coluna de tema: '{label_col}'")
+    df = df.dropna(subset=[text_col, label_col]).copy()
+    df[text_col] = df[text_col].astype(str).str.strip()
+    df[label_col] = df[label_col].astype(str).str.strip()
+
+    if args.samples_per_class > 0:
+        logger.info(f"Amostrando até {args.samples_per_class} exemplos balanceados por classe...")
+        dfs = [g.sample(min(len(g), args.samples_per_class), random_state=args.seed) for _, g in df.groupby(label_col)]
+        df = pd.concat(dfs, ignore_index=True)
+        if "split" in df.columns:
+            df = df.drop(columns=["split"])
+        logger.info(f"Dataset reduzido para: {len(df)} amostras balanceadas")
 
     # Mapeamento de rótulos
-    unique_labels = sorted(df["tema"].unique().tolist())
+    unique_labels = sorted(df[label_col].unique().tolist())
     label2id = {label: i for i, label in enumerate(unique_labels)}
     id2label = {i: label for i, label in enumerate(unique_labels)}
     num_labels = len(unique_labels)
     logger.info(f"Classes ({num_labels}): {unique_labels}")
 
-    df["label_id"] = df["tema"].map(label2id)
+    df["label_id"] = df[label_col].map(label2id)
 
     # Salvar mapeamento
     with open(output_dir / "label2id.json", "w", encoding="utf-8") as f:
@@ -242,20 +366,39 @@ def main():
     with open(output_dir / "id2label.json", "w", encoding="utf-8") as f:
         json.dump(id2label, f, indent=2, ensure_ascii=False)
 
-    # 2. Divisão estratificada (80% train, 10% val, 10% test)
-    logger.info("Realizando divisão estratificada: 80% treino, 10% validação, 10% teste...")
-    train_df, temp_df = train_test_split(
-        df,
-        test_size=0.20,
-        random_state=args.seed,
-        stratify=df["label_id"],
-    )
-    val_df, test_df = train_test_split(
-        temp_df,
-        test_size=0.50,
-        random_state=args.seed,
-        stratify=temp_df["label_id"],
-    )
+    # 2. Divisão estratificada (ou aproveitamento da coluna split se for estritamente válida para todas as classes)
+    valid_predefined_split = False
+    if "split" in df.columns and df["split"].notna().all():
+        splits = set(df["split"].unique())
+        if splits.issuperset({"train", "val", "test"}):
+            try:
+                min_counts = df.groupby([label_col, "split"]).size().unstack(fill_value=0).min().min()
+                if min_counts > 0:
+                    valid_predefined_split = True
+            except Exception:
+                pass
+
+    if valid_predefined_split:
+        logger.info("Utilizando partição pré-definida na coluna 'split'...")
+        train_df = df[df["split"] == "train"].copy()
+        val_df = df[df["split"] == "val"].copy()
+        test_df = df[df["split"] == "test"].copy()
+    else:
+        logger.info("Realizando divisão estratificada: 80% treino, 10% validação, 10% teste...")
+        if "split" in df.columns:
+            df = df.drop(columns=["split"])
+        train_df, temp_df = train_test_split(
+            df,
+            test_size=0.20,
+            random_state=args.seed,
+            stratify=df["label_id"],
+        )
+        val_df, test_df = train_test_split(
+            temp_df,
+            test_size=0.50,
+            random_state=args.seed,
+            stratify=temp_df["label_id"],
+        )
 
     logger.info(f"Divisão: Treino={len(train_df)}, Validação={len(val_df)}, Teste={len(test_df)}")
 
@@ -272,13 +415,13 @@ def main():
     tokenizer.save_pretrained(output_dir / "tokenizer")
 
     train_dataset = TextClaimDataset(
-        train_df["Claim"].tolist(), train_df["label_id"].tolist(), tokenizer, max_length=args.max_len
+        train_df[text_col].tolist(), train_df["label_id"].tolist(), tokenizer, max_length=args.max_len
     )
     val_dataset = TextClaimDataset(
-        val_df["Claim"].tolist(), val_df["label_id"].tolist(), tokenizer, max_length=args.max_len
+        val_df[text_col].tolist(), val_df["label_id"].tolist(), tokenizer, max_length=args.max_len
     )
     test_dataset = TextClaimDataset(
-        test_df["Claim"].tolist(), test_df["label_id"].tolist(), tokenizer, max_length=args.max_len
+        test_df[text_col].tolist(), test_df["label_id"].tolist(), tokenizer, max_length=args.max_len
     )
 
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
@@ -286,7 +429,7 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
     # 4. Inicializar Modelo PyTorch
-    device = get_device()
+    device = get_device(args.device)
     logger.info(f"Instanciando modelo '{args.model_name}' com {num_labels} classes...")
     model = AutoModelForSequenceClassification.from_pretrained(
         args.model_name,
@@ -296,8 +439,9 @@ def main():
     )
     model.to(device)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
-    total_training_steps = len(train_loader) * args.epochs
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01, foreach=False)
+    steps_per_epoch = int(np.ceil(len(train_loader) / args.grad_accum_steps))
+    total_training_steps = steps_per_epoch * args.epochs
     warmup_steps = int(total_training_steps * 0.1)
     scheduler = get_linear_schedule_with_warmup(
         optimizer, num_warmup_steps=warmup_steps, num_training_steps=total_training_steps
@@ -314,7 +458,9 @@ def main():
     start_train_time = time.time()
     for epoch in range(1, args.epochs + 1):
         t_epoch_start = time.time()
-        train_loss = train_epoch(model, train_loader, optimizer, scheduler, device)
+        train_loss = train_epoch(
+            model, train_loader, optimizer, scheduler, device, grad_accum_steps=args.grad_accum_steps
+        )
         val_loss, val_preds, val_targets = evaluate_pytorch(model, val_loader, device)
 
         val_acc = accuracy_score(val_targets, val_preds)
@@ -332,7 +478,9 @@ def main():
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             logger.info(f"  --> Novo melhor modelo! Salvando checkpoint em {best_pytorch_dir}...")
+            model.to("cpu")
             model.save_pretrained(best_pytorch_dir)
+            model.to(device)
 
     total_train_sec = time.time() - start_train_time
     logger.info(f"Treinamento concluído em {total_train_sec:.1f}s. Melhor Val Macro-F1: {best_val_f1:.4f}")
@@ -420,7 +568,7 @@ def main():
     int8_size_mb = os.path.getsize(int8_path := int8_onnx_path) / (1024 * 1024)
     compression_ratio = (1.0 - (int8_size_mb / fp32_size_mb)) * 100.0
 
-    test_texts = test_df["Claim"].tolist()
+    test_texts = test_df[text_col].tolist()
     test_labels = test_df["label_id"].tolist()
 
     # Sessões ONNX Runtime em CPU
@@ -443,11 +591,12 @@ def main():
     int8_clf_report = classification_report(
         test_labels,
         int8_results["predictions"],
+        labels=list(range(num_labels)),
         target_names=target_names,
         output_dict=True,
         zero_division=0,
     )
-    int8_conf_matrix = confusion_matrix(test_labels, int8_results["predictions"]).tolist()
+    int8_conf_matrix = confusion_matrix(test_labels, int8_results["predictions"], labels=list(range(num_labels))).tolist()
 
     # Montar relatório consolidado
     benchmark_report = {
@@ -510,15 +659,22 @@ def main():
     print(f"{'Throughput':<25} | {fp32_results['throughput_samples_sec']:>10.1f} s/sec  | {int8_results['throughput_samples_sec']:>10.1f} s/sec  | +{(speedup - 1)*100:>5.1f}%")
     print("=" * 70)
 
+    if "saude" in int8_clf_report:
+        h_stats = int8_clf_report["saude"]
+        print("\n🏥 DESEMPENHO DO GATEKEEPER DE SAÚDE:")
+        print(f"   Sensibilidade (Recall): {h_stats['recall']*100:.2f}% (Capacidade de capturar mensagens médicas)")
+        print(f"   Precisão:               {h_stats['precision']*100:.2f}% (Confiabilidade quando prevê saúde)")
+        print(f"   F1-Score Saúde:         {h_stats['f1-score']*100:.2f}%")
+
     print("\nDesempenho por Tema no ONNX INT8:")
     print("-" * 70)
-    print(f"{'Tema':<22} | {'Precisão':<10} | {'Revocação':<10} | {'F1-Score':<10} | {'Suporte':<8}")
+    print(f"{'Tema':<24} | {'Precisão':<10} | {'Revocação':<10} | {'F1-Score':<10} | {'Suporte':<8}")
     print("-" * 70)
     for theme in unique_labels:
         stats = int8_clf_report[theme]
-        print(f"{theme:<22} | {stats['precision']:>8.4f}   | {stats['recall']:>8.4f}   | {stats['f1-score']:>8.4f}   | {int(stats['support']):>7}")
+        print(f"{theme:<24} | {stats['precision']:>8.4f}   | {stats['recall']:>8.4f}   | {stats['f1-score']:>8.4f}   | {int(stats['support']):>7}")
     print("-" * 70)
-    print(f"{'Acurácia Global':<22} | {'-':<10} | {'-':<10} | {int8_results['accuracy']:>8.4f}   | {len(test_labels):>7}")
+    print(f"{'Acurácia Global':<24} | {'-':<10} | {'-':<10} | {int8_results['accuracy']:>8.4f}   | {len(test_labels):>7}")
     print("=" * 70)
 
 

@@ -1,0 +1,301 @@
+text	true_label	is_health_ground_truth	subcategory	predicted_theme	is_health_predicted	health_probability	confidence	latency_ms
+Água com limão em jejum emagrece e queima toda a gordura do abdômen	saude	True	nutricao_emagrecimento	saude	True	0.749345600605011	0.749345600605011	26.199594998615794
+Beber água morna pela manhã derrete as placas de gordura nas artérias	saude	True	nutricao_emagrecimento	saude	True	0.7340103983879089	0.7340103983879089	23.885670001618564
+Comer manga com leite faz mal e pode provocar envenenamento fatal	saude	True	nutricao_emagrecimento	saude	True	0.712153971195221	0.712153971195221	27.813602002424886
+Chá de hibisco com canela elimina 5 quilos em apenas três dias	saude	True	nutricao_emagrecimento	saude	True	0.7787495851516724	0.7787495851516724	27.272545998130227
+Adoçante aspartame causa esclerose múltipla e lesões cerebrais imediatas	saude	True	nutricao_emagrecimento	ciencia_tecnologia	False	0.25065577030181885	0.3228115439414978	21.2497459979204
+Comer carboidrato após as 18 horas vira gordura pura no fígado	saude	True	nutricao_emagrecimento	saude	True	0.7389218807220459	0.7389218807220459	27.408126999944216
+Beber água durante a refeição dilui o suco gástrico e apodrece a comida	saude	True	nutricao_emagrecimento	saude	True	0.7577294111251831	0.7577294111251831	27.30786499887472
+Suco detox de couve limpa todas as toxinas do sangue e regenera os rins	saude	True	nutricao_emagrecimento	saude	True	0.7488223910331726	0.7488223910331726	25.616391998482868
+Sal rosa do Himalaia não aumenta a pressão arterial e pode ser consumido à vontade	saude	True	nutricao_emagrecimento	saude	False	0.3246290385723114	0.3246290385723114	26.49301899873535
+Óleo de coco emagrece e cura o mal de Alzheimer se tomado em colheres	saude	True	nutricao_emagrecimento	saude	True	0.6646213531494141	0.6646213531494141	27.297190001263516
+Açúcar mascavo não engorda e diabéticos podem consumir sem restrições	saude	True	nutricao_emagrecimento	saude	True	0.6967422366142273	0.6967422366142273	27.47592000014265
+Tomar vinagre de maçã antes do almoço bloqueia a absorção de calorias	saude	True	nutricao_emagrecimento	saude	True	0.7435259222984314	0.7435259222984314	18.504640000173822
+Glúten faz mal para qualquer ser humano e destrói as paredes do intestino	saude	True	nutricao_emagrecimento	saude	True	0.7383413314819336	0.7383413314819336	16.9412379982532
+Ovo faz mal para o coração e comer mais de dois por semana entope as veias	saude	True	nutricao_emagrecimento	saude	True	0.6507431268692017	0.6507431268692017	26.084830999025144
+Café com manteiga acelera o metabolismo e substitui todas as refeições do dia	saude	True	nutricao_emagrecimento	saude	True	0.7669366598129272	0.7669366598129272	17.199324000102933
+Leite de vaca causa inflamação crônica e osteoporose precoce em adultos	saude	True	nutricao_emagrecimento	saude	True	0.6363381743431091	0.6363381743431091	23.650882998481393
+Comer abacaxi queima a gordura visceral enquanto você dorme	saude	True	nutricao_emagrecimento	saude	True	0.6747778654098511	0.6747778654098511	26.843927000300027
+Chá verde em cápsula substitui exercícios físicos e seca a barriga	saude	True	nutricao_emagrecimento	saude	False	0.2460765540599823	0.2460765540599823	17.72580100077903
+Gengibre com limão elimina o colesterol ruim em menos de 48 horas	saude	True	nutricao_emagrecimento	saude	False	0.3430893123149872	0.3430893123149872	16.788798999186838
+Carne vermelha apodrece no estômago e fica presa no intestino por 7 anos	saude	True	nutricao_emagrecimento	saude	True	0.7858374118804932	0.7858374118804932	21.195796001848066
+Comer melancia à noite faz mal para a digestão e causa pesadelos graves	saude	True	nutricao_emagrecimento	saude	True	0.7753565311431885	0.7753565311431885	28.243148000910878
+Bebidas alcalinas aumentam o pH do sangue e evitam qualquer ganho de peso	saude	True	nutricao_emagrecimento	saude	True	0.7058181166648865	0.7058181166648865	26.7850880009064
+Ficar sem comer por 24 horas desintoxica o pâncreas e reseta o organismo	saude	True	nutricao_emagrecimento	ciencia_tecnologia	False	0.31399601697921753	0.3197053074836731	23.156511000706814
+Chá de casca de abacaxi dissolve cálculo renal e pedra na vesícula	saude	True	nutricao_emagrecimento	saude	True	0.4345887303352356	0.4345887303352356	17.12341099846526
+Canela em pó colocada no café queima calorias sem necessidade de dieta	saude	True	nutricao_emagrecimento	saude	True	0.7757193446159363	0.7757193446159363	17.667472999164602
+Fritar com azeite de oliva transforma a gordura em veneno tóxico cancerígeno	saude	True	nutricao_emagrecimento	saude	True	0.5821592211723328	0.5821592211723328	18.235059000289766
+Comer banana com leite à noite provoca paralisia do sistema digestivo	saude	True	nutricao_emagrecimento	saude	True	0.7902230620384216	0.7902230620384216	18.882112999563105
+Tomar cerveja quente cura resfriado e solta o catarro do peito	saude	True	nutricao_emagrecimento	saude	True	0.7459754943847656	0.7459754943847656	20.559402997605503
+Vitamina em pó engorda porque contém anabolizantes disfarçados	saude	True	nutricao_emagrecimento	saude	True	0.7222241163253784	0.7222241163253784	19.119690998195438
+Comer semente de tomate causa crise aguda de apendicite	saude	True	nutricao_emagrecimento	saude	True	0.7531644701957703	0.7531644701957703	27.265698001428973
+Água com gás engorda e causa celulite em mulheres	saude	True	nutricao_emagrecimento	saude	True	0.712982177734375	0.712982177734375	17.6100349999615
+Misturar carboidratos diferentes na mesma refeição engorda o dobro	saude	True	nutricao_emagrecimento	saude	True	0.7279141545295715	0.7279141545295715	27.38599899748806
+Chá de folha de graviola substitui refeições e combate obesidade mórbida	saude	True	nutricao_emagrecimento	saude	True	0.7253467440605164	0.7253467440605164	27.999143003398785
+Leite materno fica fraco se a mãe estiver nervosa ou desnutrida	saude	True	nutricao_emagrecimento	saude	True	0.7542550563812256	0.7542550563812256	25.03180499843438
+Comer chocolate causa erupções e espinhas na pele instantaneamente	saude	True	nutricao_emagrecimento	saude	True	0.7183151841163635	0.7183151841163635	16.701175998605322
+Ibuprofeno causa câncer e destrói o fígado se tomado por mais de dois dias	saude	True	medicamentos_farmacologia	saude	True	0.6433336734771729	0.6433336734771729	19.737419999728445
+Vacinas causam autismo e alteram permanentemente o código genético humano	saude	True	medicamentos_farmacologia	saude	True	0.6440097093582153	0.6440097093582153	17.554387999553
+Dipirona é proibida no mundo todo porque provoca anemia aplástica fatal	saude	True	medicamentos_farmacologia	saude	True	0.7758510708808899	0.7758510708808899	27.480287000798853
+Antibióticos cortam completamente o efeito de qualquer vacina que você tomou	saude	True	medicamentos_farmacologia	saude	True	0.5249442458152771	0.5249442458152771	26.623411999025848
+Paracetamol em dose baixa é altamente tóxico e paralisa os rins	saude	True	medicamentos_farmacologia	saude	True	0.7326623797416687	0.7326623797416687	21.729716998379445
+Ivermectina cura e previne qualquer tipo de infecção viral ou respiratória	saude	True	medicamentos_farmacologia	saude	False	0.37174192070961	0.37174192070961	26.871124002354918
+Cloroquina previne infarto do miocárdio e trombose arterial	saude	True	medicamentos_farmacologia	saude	True	0.43637391924858093	0.43637391924858093	22.636995003267657
+Vacina da gripe causa a própria gripe forte em quem toma a injeção	saude	True	medicamentos_farmacologia	saude	True	0.7456914782524109	0.7456914782524109	22.78839399878052
+Remédios genéricos contêm apenas farinha e não têm eficácia comprovada	saude	True	medicamentos_farmacologia	saude	True	0.6456426978111267	0.6456426978111267	20.97929099909379
+Tomar corticoide por três dias causa atrofia muscular e diabetes permanente	saude	True	medicamentos_farmacologia	saude	True	0.7035194039344788	0.7035194039344788	28.337146999547258
+Vacina de RNA mensageiro altera o DNA e introduz chips de rastreamento	saude	True	medicamentos_farmacologia	ciencia_tecnologia	False	0.35601532459259033	0.3948785960674286	21.14335999795003
+Anti-inflamatórios não esteroides causam cegueira se tomados com leite	saude	True	medicamentos_farmacologia	saude	True	0.4902040958404541	0.4902040958404541	20.33108600153355
+Homeopatia tem o mesmo efeito farmacológico de antibióticos potentes	saude	True	medicamentos_farmacologia	saude	True	0.6407047510147095	0.6407047510147095	28.33185599956778
+Tomar vitamina C em excesso previne e cura resfriado em 24 horas	saude	True	medicamentos_farmacologia	saude	True	0.7688572406768799	0.7688572406768799	23.39001200016355
+Omeprazol tomado diariamente causa demência precoce e perda de memória	saude	True	medicamentos_farmacologia	saude	True	0.7257246971130371	0.7257246971130371	23.329703999479534
+Analgésicos comuns viciam o cérebro após a primeira cartela utilizada	saude	True	medicamentos_farmacologia	saude	True	0.6955462694168091	0.6955462694168091	28.260013001272455
+Vacina da dengue inocula o vírus vivo para espalhar a doença na população	saude	True	medicamentos_farmacologia	saude	True	0.5585745573043823	0.5585745573043823	26.238118000037502
+Aspirina previne qualquer derrame cerebral mesmo sem indicação médica	saude	True	medicamentos_farmacologia	saude	False	0.3890054225921631	0.3890054225921631	18.234360999485943
+Suplemento de melatonina atrofia a glândula pineal e impede o sono natural	saude	True	medicamentos_farmacologia	saude	True	0.7097047567367554	0.7097047567367554	25.191086999257095
+Antiácidos provocam câncer no estômago por neutralizarem a barreira de ácido	saude	True	medicamentos_farmacologia	saude	True	0.6946518421173096	0.6946518421173096	30.14600699680159
+Colírio comum pode ser usado sem prescrição para clarear os olhos	saude	True	medicamentos_farmacologia	saude	True	0.7008465528488159	0.7008465528488159	18.57204300176818
+Pomadas de cortisona afinam a pele e passam veneno para o sangue	saude	True	medicamentos_farmacologia	saude	True	0.7525666952133179	0.7525666952133179	20.846097999310587
+Inalação com água oxigenada desinfeta o trato respiratório de vírus	saude	True	medicamentos_farmacologia	saude	True	0.6737896203994751	0.6737896203994751	24.140120000083698
+Xarope caseiro de cebola substitui antibióticos receitados para pneumonia	saude	True	medicamentos_farmacologia	saude	True	0.6134631633758545	0.6134631633758545	24.4124759992701
+Tomar dois remédios diferentes para dor anula o efeito terapêutico de ambos	saude	True	medicamentos_farmacologia	saude	True	0.6891360878944397	0.6891360878944397	28.663532000791747
+Antialérgicos de primeira geração curam sinusite bacteriana profunda	saude	True	medicamentos_farmacologia	saude	True	0.6658086776733398	0.6658086776733398	18.01782300026389
+Soro fisiológico caseiro com sal comum pode ser injetado na veia	saude	True	medicamentos_farmacologia	saude	True	0.745037853717804	0.745037853717804	21.63495700006024
+Remédio para pressão alta pode ser suspenso assim que os sintomas somem	saude	True	medicamentos_farmacologia	ciencia_tecnologia	False	0.2215905338525772	0.28012359142303467	27.927068000280997
+Estatina destrói os músculos e deve ser evitada a qualquer custo	saude	True	medicamentos_farmacologia	saude	True	0.7334141731262207	0.7334141731262207	22.512030001962557
+Remédios para tireoide causam dependência química no organismo	saude	True	medicamentos_farmacologia	saude	True	0.6528386473655701	0.6528386473655701	23.01623200037284
+Colocar aspirina moída no dente cariado acaba com a infecção na raiz	saude	True	medicamentos_farmacologia	saude	True	0.6592027544975281	0.6592027544975281	17.817617997934576
+Pastilha para garganta cura infecção de amígdala sem precisar de médico	saude	True	medicamentos_farmacologia	saude	True	0.7275749444961548	0.7275749444961548	18.89263599878177
+Gotas de própolis no olho curam catarata e glaucoma sem cirurgia	saude	True	medicamentos_farmacologia	saude	True	0.776006281375885	0.776006281375885	21.473131000675494
+Vacina contra febre amarela transmite febre amarela para contatos próximos	saude	True	medicamentos_farmacologia	saude	True	0.7708428502082825	0.7708428502082825	28.12113300024066
+Usar descongestionante nasal todo dia não faz mal porque é só água com sal	saude	True	medicamentos_farmacologia	saude	True	0.7546949982643127	0.7546949982643127	27.612534002400935
+Bicarbonato de sódio com limão cura qualquer tipo de câncer em semanas	saude	True	oncologia_cancer	saude	True	0.7425673007965088	0.7425673007965088	28.046172999893315
+Babosa batida com mel e uísque destrói tumores malignos comprovadamente	saude	True	oncologia_cancer	saude	True	0.7074262499809265	0.7074262499809265	33.72171400042134
+Alimentos ácidos causam câncer porque células tumorais não vivem em meio alcalino	saude	True	oncologia_cancer	saude	True	0.5392928719520569	0.5392928719520569	22.23070599939092
+Desodorante antitranspirante com alumínio obstrui os poros e causa câncer de mama	saude	True	oncologia_cancer	saude	True	0.7677795886993408	0.7677795886993408	21.178046998102218
+Esquentar comida no micro-ondas altera as moléculas e gera substâncias cancerígenas	saude	True	oncologia_cancer	saude	True	0.45142215490341187	0.45142215490341187	27.050696000515018
+Guardar água em garrafa de plástico no carro libera dioxinas que dão câncer	saude	True	oncologia_cancer	saude	True	0.7522342801094055	0.7522342801094055	27.464622999104904
+Açúcar alimenta o câncer e cortar todo carboidrato mata o tumor de fome	saude	True	oncologia_cancer	saude	True	0.7845309376716614	0.7845309376716614	27.23237399914069
+Chá de folha de graviola é dez mil vezes mais potente que a quimioterapia	saude	True	oncologia_cancer	saude	True	0.646368145942688	0.646368145942688	17.940602996532107
+Fosfoetanolamina sintética cura todos os estágios de câncer sem efeito adverso	saude	True	oncologia_cancer	saude	True	0.7325598001480103	0.7325598001480103	23.84894400165649
+Mamografia comprime a mama e espalha células cancerígenas para outros órgãos	saude	True	oncologia_cancer	saude	True	0.5584913492202759	0.5584913492202759	27.48260400039726
+Usar sutiã com aro de metal bloqueia a circulação linfática e causa tumor	saude	True	oncologia_cancer	ciencia_tecnologia	False	0.26527124643325806	0.32098692655563354	28.448328001104528
+Câncer é na verdade um fungo oportunista que pode ser lavado com água sanitária	saude	True	oncologia_cancer	saude	True	0.7546571493148804	0.7546571493148804	23.49816199784982
+Ferver água duas vezes na chaleira concentra metais pesados cancerígenos	saude	True	oncologia_cancer	saude	True	0.7532660365104675	0.7532660365104675	22.22071500000311
+Pancada forte nos seios ou em ossos se transforma em câncer anos depois	saude	True	oncologia_cancer	saude	True	0.6913712620735168	0.6913712620735168	18.289694999111816
+Protetor solar causa mais câncer de pele do que a radiação do próprio sol	saude	True	oncologia_cancer	saude	True	0.6998714208602905	0.6998714208602905	27.517227001226274
+Exame de sangue oculto nas fezes substitui completamente a colonoscopia	saude	True	oncologia_cancer	saude	True	0.7146956920623779	0.7146956920623779	24.278280001453822
+Comer tomate transgênico modifica os genes humanos e induz tumores	saude	True	oncologia_cancer	saude	True	0.40689313411712646	0.40689313411712646	18.5164819995407
+Chá de ipê-roxo cura leucemia aguda sem precisar de transplante de medula	saude	True	oncologia_cancer	saude	False	0.32248935103416443	0.32248935103416443	17.884801000036532
+Dieta cetogênica estrita cura metástase pulmonar em pacientes terminais	saude	True	oncologia_cancer	ciencia_tecnologia	False	0.21704937517642975	0.339825838804245	24.602304001746234
+Alho cru amassado colocado sobre verrugas queima e cura o melanoma	saude	True	oncologia_cancer	saude	True	0.7452180981636047	0.7452180981636047	27.145198997459374
+Biópsia de tumor espalha as células do câncer pela corrente sanguínea	saude	True	oncologia_cancer	saude	True	0.5861271023750305	0.5861271023750305	16.922914001042955
+Luz do celular à noite danifica a retina e provoca câncer ocular	saude	True	oncologia_cancer	saude	True	0.760016143321991	0.760016143321991	22.606080001423834
+Adoçante sacarina é a principal causa oculta de câncer na bexiga	saude	True	oncologia_cancer	saude	False	0.31785038113594055	0.31785038113594055	22.555907002242748
+Tomar água alcalina de pH 10 imuniza o corpo contra neoplasias	saude	True	oncologia_cancer	saude	True	0.7196020483970642	0.7196020483970642	22.08791100201779
+Cúrcuma com pimenta preta substitui a radioterapia no tratamento oncológico	saude	True	oncologia_cancer	ciencia_tecnologia	False	0.2628372609615326	0.3129793703556061	24.100793001707643
+Ar-condicionado emite esporos que se instalam no pulmão e viram câncer	saude	True	oncologia_cancer	saude	True	0.7091401815414429	0.7091401815414429	26.783539000462042
+Chá de cogumelo do sol reverte qualquer tumor de próstata avançado	saude	True	oncologia_cancer	saude	True	0.7546432614326477	0.7546432614326477	23.934791002830025
+Queimar a comida levemente no tostão gera acrilamida suficiente para causar leucemia	saude	True	oncologia_cancer	ciencia_tecnologia	False	0.31253162026405334	0.3324756622314453	26.19533699908061
+Fazer jejum de água por sete dias mata tumores malignos no estômago	saude	True	oncologia_cancer	saude	True	0.7286217212677002	0.7286217212677002	27.141359001689125
+Tatuagem feita com tinta escura penetra nos gânglios e causa linfoma maligno	saude	True	oncologia_cancer	saude	True	0.7051785588264465	0.7051785588264465	21.079189998999937
+Colocar alho cru no dente ou no ouvido acaba com infecção e dor na hora	saude	True	remedios_caseiros	saude	True	0.6339796781539917	0.6339796781539917	21.299428000929765
+Passar borra de café ou pasta de dente em queimadura alivia e cicatriza rápido	saude	True	remedios_caseiros	saude	True	0.6532547473907471	0.6532547473907471	19.217779001337476
+Colocar manteiga na pele queimada evita bolhas e regenera o tecido	saude	True	remedios_caseiros	saude	True	0.4402252733707428	0.4402252733707428	19.614673001342453
+Pingar leite materno no olho cura conjuntivite bacteriana em bebês	saude	True	remedios_caseiros	saude	True	0.7658716440200806	0.7658716440200806	28.062934001354733
+Chá de boldo cura hepatite e regenera o fígado cirrótico imediatamente	saude	True	remedios_caseiros	saude	True	0.7247980237007141	0.7247980237007141	19.17865599898505
+Amarrar linha vermelha na testa do recém-nascido faz o soluço parar	saude	True	remedios_caseiros	saude	True	0.6792206764221191	0.6792206764221191	18.666071999177802
+Passar baba de quiabo no joelho repõe a cartilagem desgastada pela artrose	saude	True	remedios_caseiros	saude	True	0.6805185675621033	0.6805185675621033	19.004788999154698
+Colocar moeda no umbigo do bebê evita e cura hérnia umbilical	saude	True	remedios_caseiros	saude	True	0.7452167272567749	0.7452167272567749	17.65559199702693
+Fazer gargarejo com vinagre e sal mata qualquer vírus da garganta	saude	True	remedios_caseiros	saude	True	0.7455143928527832	0.7455143928527832	26.750777000415837
+Tomar querosene purificado em colheres elimina vermes intestinais	saude	True	remedios_caseiros	saude	True	0.7737950086593628	0.7737950086593628	21.926186000200687
+Chá de pata-de-vaca cura diabetes tipo 1 e dispensa o uso de insulina	saude	True	remedios_caseiros	saude	True	0.455081969499588	0.455081969499588	18.50518799983547
+Comer semente de mamão crua expulsa todas as amebas do aparelho digestivo	saude	True	remedios_caseiros	saude	True	0.702049732208252	0.702049732208252	23.00953899975866
+Colocar teia de aranha em corte aberto estanca o sangramento com segurança	saude	True	remedios_caseiros	saude	True	0.7096956968307495	0.7096956968307495	23.04163499866263
+Passar urina fresca na pele cura manchas de pano branco e micoses	saude	True	remedios_caseiros	saude	True	0.7650986313819885	0.7650986313819885	26.222664000670193
+Chá de sabugueiro cura sarampo e catapora antes das erupções na pele	saude	True	remedios_caseiros	saude	False	0.3573955297470093	0.3573955297470093	27.284186999168014
+Suco de inhame cru cura dengue e aumenta as plaquetas em poucas horas	saude	True	remedios_caseiros	ciencia_tecnologia	False	0.23029319941997528	0.3325330913066864	28.11579300032463
+Mistura de alho com cachaça cura pneumonia crônica em três doses	saude	True	remedios_caseiros	saude	True	0.403026819229126	0.403026819229126	20.009116000437643
+Chá de folha de amoreira substitui terapia hormonal na menopausa	saude	True	remedios_caseiros	saude	False	0.294242799282074	0.294242799282074	23.955158998433035
+Passar folha de couve no peito cura bronquite asmática em crianças	saude	True	remedios_caseiros	saude	True	0.7683678269386292	0.7683678269386292	20.14793100170209
+Tomar água de berinjela com limão cura esteatose hepática grau 3	saude	True	remedios_caseiros	saude	True	0.7653992176055908	0.7653992176055908	25.888087999192066
+Comer dente de alho inteiro em jejum desentope artérias coronárias	saude	True	remedios_caseiros	saude	True	0.7233200669288635	0.7233200669288635	17.334402997221332
+Xarope de beterraba com açúcar mascavo cura anemia falciforme	saude	True	remedios_caseiros	saude	True	0.5952253341674805	0.5952253341674805	16.828084000735544
+Emplastro de barro com vinagre cura entorse e fratura óssea sem gesso	saude	True	remedios_caseiros	saude	True	0.7083995342254639	0.7083995342254639	17.50606799760135
+Banho de assento com barbatimão substitui cirurgia ginecológica	saude	True	remedios_caseiros	saude	True	0.5132092833518982	0.5132092833518982	24.924225002905587
+Chá de picão cura icterícia de recém-nascido sem necessidade de fototerapia	saude	True	remedios_caseiros	saude	True	0.5349887609481812	0.5349887609481812	28.316365001956
+Colocar fumo de rolo em dente inflamado mata o nervo e tira a dor	saude	True	remedios_caseiros	saude	True	0.7312692999839783	0.7312692999839783	22.693809998600045
+Passar banha de galinha preta no peito cura tosse comprida	saude	True	remedios_caseiros	saude	True	0.7132023572921753	0.7132023572921753	23.51782899859245
+Chá de quebra-pedra quebra cálculos renais em farelo indolor	saude	True	remedios_caseiros	saude	True	0.588075578212738	0.588075578212738	19.600758998421952
+Pingar álcool com cânfora no canal auditivo seca secreção de otite	saude	True	remedios_caseiros	saude	True	0.7418248057365417	0.7418248057365417	17.913608000526438
+Infusão de casca de carvalho cura hemorroidas externas sem pomada	saude	True	remedios_caseiros	saude	True	0.6277989745140076	0.6277989745140076	20.498335998127004
+Diabetes pode ser curada completamente cortando o consumo de arroz	saude	True	doencas_cronicas	saude	True	0.7139905691146851	0.7139905691146851	28.365707999910228
+Hipertensão tem cura definitiva com infusão de folhas de chuchu	saude	True	doencas_cronicas	saude	True	0.7369994521141052	0.7369994521141052	26.071705000504153
+Quem não sente dor de cabeça não tem pressão alta de jeito nenhum	saude	True	doencas_cronicas	saude	True	0.5505184531211853	0.5505184531211853	22.24996700169868
+Tossir com força durante uma dor no peito interrompe um ataque cardíaco	saude	True	doencas_cronicas	saude	True	0.7321085333824158	0.7321085333824158	17.352892999042524
+Colesterol alto não existe e é uma farsa inventada pelos laboratórios	saude	True	doencas_cronicas	saude	True	0.7023080587387085	0.7023080587387085	17.411174998414936
+Beber água gelada entope as quatro válvulas principais do coração	saude	True	doencas_cronicas	saude	True	0.6585217118263245	0.6585217118263245	24.739147997024702
+Pessoas magras nunca desenvolvem colesterol alto nem diabetes tipo 2	saude	True	doencas_cronicas	saude	True	0.6397057771682739	0.6397057771682739	28.528277998702833
+Medir a pressão arterial no braço esquerdo sempre dá valor diferente e perigoso	saude	True	doencas_cronicas	saude	True	0.5401495695114136	0.5401495695114136	22.016110000549816
+Arritmia cardíaca é sempre sinal de infarto iminente nas próximas horas	saude	True	doencas_cronicas	saude	True	0.6387902498245239	0.6387902498245239	26.04151500054286
+Dor na perna ao caminhar é apenas cansaço normal e nunca problema circulatório	saude	True	doencas_cronicas	saude	True	0.6595847606658936	0.6595847606658936	23.57675899838796
+Aplicar calor em veia com trombose ajuda a dissolver o coágulo de sangue	saude	True	doencas_cronicas	saude	True	0.7578358054161072	0.7578358054161072	19.363643001270248
+Varizes são apenas um problema estético e não causam problemas venosos graves	saude	True	doencas_cronicas	saude	True	0.7450689077377319	0.7450689077377319	20.841321998886997
+Colocar sal debaixo da língua reverte crise de hipertensão aguda	saude	True	doencas_cronicas	saude	True	0.7768802642822266	0.7768802642822266	18.566950999229448
+Fazer sangria no dedo com agulha previne sequelas de acidente vascular cerebral	saude	True	doencas_cronicas	saude	True	0.6228742599487305	0.6228742599487305	21.095779000461334
+Quem tem marcapasso não pode passar perto de fornos de micro-ondas	saude	True	doencas_cronicas	saude	True	0.5740766525268555	0.5740766525268555	27.733394999813754
+Comer alho todo dia dispensa o uso de remédios anti-hipertensivos	saude	True	doencas_cronicas	saude	True	0.7770586609840393	0.7770586609840393	23.45394099756959
+Doença renal crônica só dá sintomas quando o rim já parou de funcionar totalmente	saude	True	doencas_cronicas	ciencia_tecnologia	False	0.198143869638443	0.30586761236190796	24.074823999399086
+Falta de ar ao subir escadas é sempre falta de preparo físico e nunca coração	saude	True	doencas_cronicas	saude	True	0.6355410218238831	0.6355410218238831	23.30181900106254
+Glicose em 140 mg/dL em jejum é normal para pessoas com mais de 50 anos	saude	True	doencas_cronicas	saude	True	0.514655590057373	0.514655590057373	27.541227998881368
+Crise de gota no pé é causada exclusivamente por consumo excessivo de tomate	saude	True	doencas_cronicas	saude	True	0.7127001285552979	0.7127001285552979	25.70030100105214
+Insuficiência cardíaca melhora se o paciente beber o máximo de água possível	saude	True	doencas_cronicas	saude	True	0.4671984612941742	0.4671984612941742	27.081955999165075
+Dormir virado para o lado esquerdo comprime o coração e causa arritmia	saude	True	doencas_cronicas	saude	True	0.6593126058578491	0.6593126058578491	20.65809600026114
+Estalar as juntas dos dedos engrossa os ossos e causa artrite grave	saude	True	doencas_cronicas	saude	True	0.6804046630859375	0.6804046630859375	28.765622002538294
+Bico de papagaio na coluna se dissolve com sessões de massagem vigorosa	saude	True	doencas_cronicas	saude	True	0.7524685263633728	0.7524685263633728	27.59264499763958
+Asma infantil é uma doença psicológica que cura quando a criança cresce	saude	True	doencas_cronicas	saude	False	0.3495735824108124	0.3495735824108124	18.28326600298169
+Sinusite crônica pode virar meningite se a pessoa molhar a cabeça na chuva	saude	True	doencas_cronicas	ciencia_tecnologia	False	0.21026650071144104	0.3245491683483124	25.526131001242902
+Úlcera gástrica é provocada unicamente pelo estresse do trabalho e nervosismo	saude	True	doencas_cronicas	saude	True	0.7327893972396851	0.7327893972396851	26.324456001020735
+Hérnia de disco só tem solução através de cirurgia aberta na coluna	saude	True	doencas_cronicas	saude	True	0.7722200751304626	0.7722200751304626	19.552530997316353
+Labirintite ataca sempre que a pessoa faz movimentos bruscos com a cabeça	saude	True	doencas_cronicas	saude	True	0.7187783718109131	0.7187783718109131	17.270799002290005
+Glaucoma sempre causa dor intensa no globo ocular antes de cegar	saude	True	doencas_cronicas	saude	True	0.750086784362793	0.750086784362793	23.225044998980593
+Desenrolar a língua de quem está tendo uma convulsão para não engolir	saude	True	primeiros_socorros_sintomas	saude	True	0.6696613430976868	0.6696613430976868	23.744805999740493
+Tomar banho gelado após almoçar provoca congestão cerebral fatal	saude	True	primeiros_socorros_sintomas	saude	True	0.478895366191864	0.478895366191864	19.149271000060253
+Sair no sereno descalço causa pneumonia e paralisia facial	saude	True	primeiros_socorros_sintomas	saude	True	0.6682493686676025	0.6682493686676025	27.562030001718085
+Jogar álcool no peito da criança com febre alta abaixa a temperatura	saude	True	primeiros_socorros_sintomas	saude	True	0.7739260792732239	0.7739260792732239	25.559468998835655
+Dar água com açúcar acalma a pessoa que está sofrendo um choque anafilático	saude	True	primeiros_socorros_sintomas	saude	True	0.7653846144676208	0.7653846144676208	21.347707999666454
+Fazer torniquete apertado em picada de cobra impede que o veneno circule	saude	True	primeiros_socorros_sintomas	saude	True	0.5810205340385437	0.5810205340385437	19.434973000898026
+Chupar o veneno no local da picada de cobra salva a vida da vítima	saude	True	primeiros_socorros_sintomas	saude	True	0.7053718566894531	0.7053718566894531	21.676445001503453
+Jogar água fria em pessoa desmaiada faz ela recobrar a consciência sem perigo	saude	True	primeiros_socorros_sintomas	saude	True	0.6380720734596252	0.6380720734596252	28.60478900038288
+Colocar pó de café em ferida aberta estanca a hemorragia sem infeccionar	saude	True	primeiros_socorros_sintomas	saude	True	0.5552545785903931	0.5552545785903931	22.66031399994972
+Inclinar a cabeça para trás quando o nariz sangra para parar a hemorragia	saude	True	primeiros_socorros_sintomas	saude	True	0.7637054324150085	0.7637054324150085	19.7223400027724
+Engolir fumaça de cigarro cura soluço persistente em adultos	saude	True	primeiros_socorros_sintomas	saude	True	0.6498491168022156	0.6498491168022156	24.929495997639606
+Dar leite morno para quem ingeriu veneno ou produto de limpeza neutraliza o ácido	saude	True	primeiros_socorros_sintomas	saude	True	0.6072297692298889	0.6072297692298889	22.522011000546627
+Provocar vômito em quem engoliu soda cáustica limpa o esôfago	saude	True	primeiros_socorros_sintomas	saude	True	0.4495156705379486	0.4495156705379486	17.67526399999042
+Fazer massagem cardíaca rápida sobre o abdômen ressuscita vítima de afogamento	saude	True	primeiros_socorros_sintomas	saude	False	0.3641898036003113	0.3641898036003113	17.15638599853264
+Puxar a orelha para cima desentope o ouvido inflamado por otite média	saude	True	primeiros_socorros_sintomas	saude	True	0.7343975901603699	0.7343975901603699	17.380980996676954
+Colocar gelo direto sobre queimadura de fogo fecha a ferida e impede bolhas	saude	True	primeiros_socorros_sintomas	saude	True	0.7386521697044373	0.7386521697044373	22.907259000930935
+Tremores de febre alta significam que a criança está entrando em coma	saude	True	primeiros_socorros_sintomas	saude	True	0.736800491809845	0.736800491809845	19.509852001647232
+Coceira no ânus é sinal infalível de infestação severa por lombrigas	saude	True	primeiros_socorros_sintomas	saude	False	0.3820956349372864	0.3820956349372864	19.187761001376202
+Mancha branca na unha é falta de cálcio nos ossos do corpo	saude	True	primeiros_socorros_sintomas	saude	True	0.7026315331459045	0.7026315331459045	20.098401000723243
+Cabelo branco arrancado nasce sete no mesmo lugar por infecção do folículo	saude	True	primeiros_socorros_sintomas	saude	True	0.7318422198295593	0.7318422198295593	23.306258997763507
+Engolir chiclete faz ele grudar no estômago e bloquear o intestino por 7 anos	saude	True	primeiros_socorros_sintomas	saude	True	0.46103960275650024	0.46103960275650024	27.189005999389337
+Ler no escuro ou deitado estraga a visão e causa miopia irreversível	saude	True	primeiros_socorros_sintomas	saude	True	0.696424126625061	0.696424126625061	17.889124999783235
+Usar óculos com grau de outra pessoa cega os olhos permanentemente	saude	True	primeiros_socorros_sintomas	saude	True	0.7464066743850708	0.7464066743850708	21.829295001225546
+Criança que demora para falar tem a língua presa e precisa de corte caseiro	saude	True	primeiros_socorros_sintomas	saude	True	0.5638251900672913	0.5638251900672913	28.294386000197846
+Susto cura soluço porque interrompe os batimentos do coração por segundos	saude	True	primeiros_socorros_sintomas	saude	True	0.7308624386787415	0.7308624386787415	27.775012000347488
+Mulher menstruada não pode lavar o cabelo porque o sangue sobe para a cabeça	saude	True	primeiros_socorros_sintomas	saude	True	0.7244085073471069	0.7244085073471069	23.046850998071022
+Tomar friagem logo após sair do banho quente entorta a boca para sempre	saude	True	primeiros_socorros_sintomas	saude	True	0.6689780950546265	0.6689780950546265	18.157262002205243
+Dormir com ventilador ligado na cara causa derrame facial e paralisia de Bell	saude	True	primeiros_socorros_sintomas	saude	False	0.2612227201461792	0.2612227201461792	19.309962997795083
+Bater nas costas de quem está engasgado com a pessoa em pé resolve o engasgo	saude	True	primeiros_socorros_sintomas	saude	True	0.6437095403671265	0.6437095403671265	20.23691100112046
+Furar a bolha de queimadura com agulha esterilizada ajuda na cicatrização	saude	True	primeiros_socorros_sintomas	saude	True	0.7856054902076721	0.7856054902076721	21.211668001342332
+Água sanitária diluída em água pura pode ser bebida para matar o coronavírus	saude	True	viroses_infectologia	saude	True	0.7196051478385925	0.7196051478385925	27.372865999495843
+Secador de cabelo quente no nariz inativa o vírus da gripe e da Covid	saude	True	viroses_infectologia	saude	True	0.7640759348869324	0.7640759348869324	20.58506699904683
+Chá de erva-doce tem a mesma substância ativa do antiviral Tamiflu	saude	True	viroses_infectologia	saude	True	0.5918712019920349	0.5918712019920349	26.63133399983053
+Gargarejar com água morna e sal impede que o vírus desça para os pulmões	saude	True	viroses_infectologia	saude	True	0.786185085773468	0.786185085773468	25.863581999146845
+Dengue não é transmitida por mosquito mas por parasita na água encanada	saude	True	viroses_infectologia	saude	True	0.7123799920082092	0.7123799920082092	27.749709002819145
+Mosquito da dengue não pica pessoas que consomem vitamina do complexo B	saude	True	viroses_infectologia	saude	True	0.652686357498169	0.652686357498169	22.29373400041368
+Chá de folha de mamão cura a dengue hemorrágica em questão de 12 horas	saude	True	viroses_infectologia	saude	True	0.65973299741745	0.65973299741745	19.11773099709535
+Tomar sol ao meio-dia queima e desinfeta qualquer bactéria presente no sangue	saude	True	viroses_infectologia	saude	False	0.34466391801834106	0.34466391801834106	23.830914000427583
+Imunidade de rebanho natural é melhor que vacina porque a doença fortalece o corpo	saude	True	viroses_infectologia	saude	False	0.3895900547504425	0.3895900547504425	19.584003999625565
+Vírus da gripe não resiste a temperaturas tropicais e morre no calor	saude	True	viroses_infectologia	saude	True	0.7580277323722839	0.7580277323722839	21.780638002383057
+Usar máscara de proteção causa hipóxia grave e intoxicação por gás carbônico	saude	True	viroses_infectologia	saude	True	0.6915231943130493	0.6915231943130493	18.545484999776818
+Termômetro digital infravermelho no pulso danifica a glândula pineal no cérebro	saude	True	viroses_infectologia	saude	False	0.3761284649372101	0.3761284649372101	27.61387800273951
+Própolis verde e geleia real tornam o organismo 100% imune a qualquer epidemia	saude	True	viroses_infectologia	saude	True	0.5567782521247864	0.5567782521247864	27.182099998753984
+Chá de gengibre com alho e cebola roxa substitui o tratamento médico da pneumonia	saude	True	viroses_infectologia	ciencia_tecnologia	False	0.1360989660024643	0.30331504344940186	26.164899001742015
+Cura quântica e frequências sonoras eliminam bactérias multirresistentes	saude	True	viroses_infectologia	saude	True	0.6307917237281799	0.6307917237281799	26.358745999459643
+Dióxido de cloro e MMS curam autismo, malária e todas as doenças infecciosas	saude	True	viroses_infectologia	ciencia_tecnologia	False	0.27108705043792725	0.3966679275035858	27.96725400185096
+Testes PCR para diagnóstico inoculam vírus sintéticos no fundo do septo nasal	saude	True	viroses_infectologia	ciencia_tecnologia	False	0.19399438798427582	0.38488978147506714	27.478722997329896
+Gripe aviária é transmitida através da antena de telecomunicações 5G	saude	True	viroses_infectologia	saude	True	0.4900180995464325	0.4900180995464325	28.63450000222656
+Antibióticos devem ser tomados no primeiro dia de qualquer resfriado comum	saude	True	viroses_infectologia	saude	True	0.5196250081062317	0.5196250081062317	27.91937299843994
+Picada de carrapato estrela só transmite febre maculosa se o carrapato for esmagado	saude	True	viroses_infectologia	saude	True	0.5949981212615967	0.5949981212615967	27.396728000894655
+Tuberculose é causada por tomar chuva e passar frio com o peito aberto	saude	True	viroses_infectologia	saude	True	0.7430735230445862	0.7430735230445862	18.488013000023784
+Lepra ou hanseníase pega simplesmente pelo aperto de mão de pessoa infectada	saude	True	viroses_infectologia	saude	True	0.7013672590255737	0.7013672590255737	19.224195999413496
+Micoses de praia são causadas por micróbios colocados na areia por banhistas	saude	True	viroses_infectologia	saude	True	0.6833645105361938	0.6833645105361938	17.68693399935728
+Infecção urinária pega sentando em vaso sanitário público de shopping	saude	True	viroses_infectologia	saude	True	0.5421792268753052	0.5421792268753052	23.901562999526504
+Herpes labial cura imediatamente aplicando pasta de dente com bicarbonato	saude	True	viroses_infectologia	saude	True	0.7797083854675293	0.7797083854675293	27.527322999958415
+Sarna humana é transmitida pelo consumo de carne de porco mal cozida	saude	True	viroses_infectologia	saude	True	0.4566027522087097	0.4566027522087097	19.893106000381522
+Lavar as mãos apenas com água quente mata mais micróbios que usar sabão	saude	True	viroses_infectologia	saude	True	0.7715999484062195	0.7715999484062195	17.34124899667222
+Beber água com prata coloidal age como antibiótico universal natural	saude	True	viroses_infectologia	saude	True	0.611386239528656	0.611386239528656	17.53516399912769
+Inalação de vapores de eucalipto desobstrui alvéolos e mata pneumonia	saude	True	viroses_infectologia	saude	True	0.7758938074111938	0.7758938074111938	24.136482999892905
+Vacina de vírus atenuado esteriliza a população jovem em idade reprodutiva	saude	True	viroses_infectologia	saude	True	0.758840799331665	0.758840799331665	19.333897998876637
+Governo federal vai confiscar a poupança de todos os correntistas no fim do mês	politica_governo	False	controle_politica_governo	saude	True	0.4498612582683563	0.4498612582683563	17.26951800083043
+Urnas eletrônicas foram fraudadas e código fonte secreto foi alterado no tribunal	politica_governo	False	controle_politica_governo	saude	True	0.5588679313659668	0.5588679313659668	17.350947997329058
+Senado aprova lei secreta que extingue o décimo terceiro salário dos trabalhadores	politica_governo	False	controle_politica_governo	saude	True	0.5331040620803833	0.5331040620803833	23.60070700160577
+Decreto presidencial determina fim do direito de propriedade privada no país	politica_governo	False	controle_politica_governo	saude	True	0.4539489150047302	0.4539489150047302	26.010741999925813
+Deputados federais votam aumento de salário de quinhentos por cento na calada da noite	politica_governo	False	controle_politica_governo	saude	True	0.6135290265083313	0.6135290265083313	27.95506799884606
+Exército nacional assume o controle de ministérios e fecha o congresso em Brasília	politica_governo	False	controle_politica_governo	saude	True	0.48687052726745605	0.48687052726745605	20.987085001252126
+Tribunal Superior Eleitoral cancela título de eleitor de quem não cadastrou biometria	politica_governo	False	controle_politica_governo	saude	True	0.4819248616695404	0.4819248616695404	20.85828599956585
+Ministro do STF renuncia ao cargo após pressão de manifestantes em Brasília	politica_governo	False	controle_politica_governo	saude	True	0.4336299002170563	0.4336299002170563	18.95642800081987
+Presidente assina medida provisória que proíbe manifestações políticas nas capitais	politica_governo	False	controle_politica_governo	saude	True	0.5103064775466919	0.5103064775466919	21.958787998300977
+Novo plano de governo prevê confisco de terras produtivas pelo Instituto de Reforma Agrária	politica_governo	False	controle_politica_governo	saude	False	0.2940555214881897	0.2940555214881897	18.211992999567883
+Diplomacia brasileira rompe relações oficiais com países da Europa após reunião da ONU	politica_governo	False	controle_politica_governo	saude	False	0.3109758198261261	0.3109758198261261	23.01377999901888
+Prefeitura decreta intervenção militar no transporte coletivo municipal	politica_governo	False	controle_politica_governo	saude	True	0.5096622705459595	0.5096622705459595	22.498563001136063
+Câmara dos Vereadores aprova taxa extra sobre veículos automotores particulares	politica_governo	False	controle_politica_governo	saude	True	0.6168423891067505	0.6168423891067505	24.499783001374453
+Governo estadual extingue cargos de servidores públicos sem aviso prévio	politica_governo	False	controle_politica_governo	conversa_geral	False	0.3689371347427368	0.4692365229129791	28.775914001016645
+Comissão parlamentar de inquérito pede a prisão preventiva de ex-governador	politica_governo	False	controle_politica_governo	conversa_geral	False	0.3164275884628296	0.3529245853424072	27.05662199878134
+Partidos fecham aliança partidária para lançar chapa unificada à presidência	politica_governo	False	controle_politica_governo	saude	True	0.47249269485473633	0.47249269485473633	24.111519000143744
+Lei eleitoral proíbe comícios e propaganda partidária nas redes sociais durante campanha	politica_governo	False	controle_politica_governo	saude	True	0.4509262442588806	0.4509262442588806	26.39101800014032
+Itamaraty publica nota de repúdio contra sanções econômicas no Mercosul	politica_governo	False	controle_politica_governo	saude	True	0.504575252532959	0.504575252532959	24.763182002061512
+Tribunal de Contas da União rejeita as contas presidenciais do último exercício	politica_governo	False	controle_politica_governo	conversa_geral	False	0.33255311846733093	0.446186900138855	17.528284999571042
+Governador sanciona plano orçamentário com corte de repasses para prefeituras	politica_governo	False	controle_politica_governo	saude	True	0.5237084031105042	0.5237084031105042	18.81320800021058
+Banco Central vai lançar a cédula de quinhentos reais e desvalorizar a moeda em 50%	economia_negocios	False	controle_economia_negocios	economia_negocios	False	0.25964444875717163	0.3271018862724304	27.167338001163444
+Fechamento repentino de todos os bancos privados nesta sexta-feira bloqueia saques	economia_negocios	False	controle_economia_negocios	saude	True	0.5550769567489624	0.5550769567489624	27.753910999308573
+Taxa Selic sobe para vinte por cento ao ano em reunião extraordinária do Copom	economia_negocios	False	controle_economia_negocios	conversa_geral	False	0.36162069439888	0.510770320892334	21.36963000157266
+Multinacional encerra operações no Brasil e demite vinte mil funcionários de fábricas	economia_negocios	False	controle_economia_negocios	economia_negocios	False	0.14953655004501343	0.562616229057312	17.875894998724107
+Bolsa de valores de São Paulo interrompe negociações após queda histórica do índice Ibovespa	economia_negocios	False	controle_economia_negocios	conversa_geral	False	0.3978672921657562	0.4114009141921997	22.473802000604337
+Inflação do mês atinge recorde histórico puxada pela alta do diesel e combustíveis	economia_negocios	False	controle_economia_negocios	saude	True	0.7041502594947815	0.7041502594947815	24.960326998552773
+Gigante do varejo decreta falência oficial após rombo bilionário em balanço contábil	economia_negocios	False	controle_economia_negocios	saude	True	0.631665825843811	0.631665825843811	22.67894000033266
+Receita Federal passa a cobrar imposto de renda sobre todas as transações feitas pelo Pix	economia_negocios	False	controle_economia_negocios	saude	True	0.4444288909435272	0.4444288909435272	17.733970998961013
+Cotação do dólar americano ultrapassa sete reais no mercado financeiro	economia_negocios	False	controle_economia_negocios	economia_negocios	False	0.20652131736278534	0.5193970203399658	19.171644002199173
+Exportações do agronegócio registram superávit histórico na balança comercial	economia_negocios	False	controle_economia_negocios	saude	True	0.5037668347358704	0.5037668347358704	19.282901001133723
+Fundo Monetário Internacional faz empréstimo de emergência para países da América Latina	economia_negocios	False	controle_economia_negocios	saude	False	0.3284188210964203	0.3284188210964203	26.922713997919345
+Bancos anunciam anistia total de dívidas do cartão de crédito para clientes negativados	economia_negocios	False	controle_economia_negocios	economia_negocios	False	0.18064995110034943	0.5368385314941406	17.95937899805722
+Investimento em títulos do tesouro direto passa a ter isenção total de impostos	economia_negocios	False	controle_economia_negocios	economia_negocios	False	0.22688868641853333	0.48486366868019104	20.84545999969123
+Startups de tecnologia abrem capital na bolsa de Nova York captando bilhões	economia_negocios	False	controle_economia_negocios	saude	True	0.6022761464118958	0.6022761464118958	19.13757000147598
+Operação de fusão entre companhias aéreas é barrada pelo conselho de defesa econômica	economia_negocios	False	controle_economia_negocios	saude	True	0.49322471022605896	0.49322471022605896	18.577474998892285
+Petrobras anuncia redução nos preços da gasolina refinada nas distribuidoras	economia_negocios	False	controle_economia_negocios	saude	True	0.5737932324409485	0.5737932324409485	21.68913100103964
+Setor de serviços cresce acima do esperado no terceiro trimestre consecutivo	economia_negocios	False	controle_economia_negocios	saude	True	0.5328647494316101	0.5328647494316101	21.821728001668816
+Companhia siderúrgica constrói novo complexo industrial no porto de Santos	economia_negocios	False	controle_economia_negocios	saude	True	0.5733559727668762	0.5733559727668762	28.72503499747836
+Montadora de automóveis anuncia investimento em veículos híbridos nacionais	economia_negocios	False	controle_economia_negocios	saude	True	0.5911951065063477	0.5911951065063477	24.617983999632997
+Comércio eletrônico bate recorde de faturamento durante a semana de promoções	economia_negocios	False	controle_economia_negocios	saude	True	0.7439410090446472	0.7439410090446472	20.472065003559692
+Flamengo e Palmeiras empatam clássico eletrizante no Maracanã com dois gols no final	esportes	False	controle_esportes	esportes	False	0.011621210724115372	0.9252554178237915	20.505054999375716
+Seleção Brasileira confirma novo técnico europeu para o ciclo da Copa do Mundo	esportes	False	controle_esportes	esportes	False	0.0068372078239917755	0.9523079991340637	27.149834000738338
+Atacante da seleção sofre lesão no ligamento cruzado e fica fora da temporada	esportes	False	controle_esportes	esportes	False	0.03798918426036835	0.8334131240844727	19.078796001849696
+Final da Copa Libertadores da América terá transmissão exclusiva em canal aberto	esportes	False	controle_esportes	conversa_geral	False	0.255189448595047	0.3718325197696686	17.551574001117842
+Piloto brasileiro conquista a pole position no GP de Fórmula 1 em Interlagos	esportes	False	controle_esportes	conversa_geral	False	0.24093331396579742	0.33106809854507446	26.321158999053296
+Clube paulista anuncia a contratação de astro do futebol europeu por três temporadas	esportes	False	controle_esportes	esportes	False	0.12943726778030396	0.5970565676689148	27.280089001578745
+Campeonato Brasileiro de Futebol tem rodada decisiva na disputa pelo título nacional	esportes	False	controle_esportes	esportes	False	0.02448912523686886	0.851631760597229	23.219819999212632
+Comitê Olímpico Internacional inclui novas modalidades nos Jogos Olímpicos de Los Angeles	esportes	False	controle_esportes	esportes	False	0.01961180940270424	0.9012225270271301	21.93597400037106
+Tenista brasileiro avança para as quartas de final em torneio Grand Slam de Roland Garros	esportes	False	controle_esportes	esportes	False	0.013904117979109287	0.9174444079399109	23.46313999805716
+Equipe de basquete conquista o troféu da NBA após vitória épica no jogo sete	esportes	False	controle_esportes	esportes	False	0.05894611403346062	0.7741378545761108	27.857832003064686
+Vôlei feminino do Brasil conquista a medalha de ouro no campeonato mundial	esportes	False	controle_esportes	esportes	False	0.024837670847773552	0.8769510984420776	26.7451820000133
+Atleta quebra recorde mundial nos cem metros rasos durante etapa da Liga Diamante	esportes	False	controle_esportes	esportes	False	0.24466507136821747	0.37728312611579895	24.09731300213025
+Federação de futebol suspende árbitro após polêmica com o uso do árbitro de vídeo	esportes	False	controle_esportes	esportes	False	0.16685698926448822	0.5041642189025879	20.420714001375018
+Ginasta brasileira conquista nota máxima e medalha de ouro no salto individual	esportes	False	controle_esportes	esportes	False	0.0655663013458252	0.7251165509223938	28.00172099887277
+Maratona internacional de São Paulo reúne milhares de corredores nas ruas da capital	esportes	False	controle_esportes	saude	True	0.4596571624279022	0.4596571624279022	27.634190999378916
+Boxeador brasileiro vence por nocaute e fatura cinturão mundial dos pesos médios	esportes	False	controle_esportes	esportes	False	0.06097084656357765	0.7722132802009583	19.819811001070775
+Estádio de futebol é interditado pela defesa civil por problemas na cobertura	esportes	False	controle_esportes	saude	True	0.40041208267211914	0.40041208267211914	22.864196998853004
+Surfista brasileiro vence etapa do circuito mundial na praia de Saquarema	esportes	False	controle_esportes	esportes	False	0.10411308705806732	0.6583595275878906	20.824254999752156
+Torcida organizada do clube é punida com perda de mando de campo por tumulto	esportes	False	controle_esportes	conversa_geral	False	0.30032289028167725	0.3669785261154175	27.133844996569678
+Nadador conquista três medalhas nos Jogos Pan-Americanos no Chile	esportes	False	controle_esportes	esportes	False	0.011266653425991535	0.9314667582511902	18.79154199923505
+A Terra é plana e as fotos espaciais da NASA são geradas por computação gráfica	ciencia_tecnologia	False	controle_ciencia_tecnologia	ciencia_tecnologia	False	0.16448593139648438	0.6237894296646118	27.590308000071673
+Rede 5G altera o DNA humano e transmite sinais para controle mental da população	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.4488046169281006	0.4488046169281006	23.93948900135001
+Carro elétrico explode imediatamente se for lavado em lava-rápido ou tomar chuva	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.6400971412658691	0.6400971412658691	25.456292998569552
+Telescópio espacial James Webb captura imagens inéditas de galáxias primordiais	ciencia_tecnologia	False	controle_ciencia_tecnologia	ciencia_tecnologia	False	0.0906437337398529	0.48150190711021423	22.173084998939885
+Inteligência artificial adquire consciência própria e desliga servidores do data center	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.4342997968196869	0.4342997968196869	17.924599000252783
+Cientistas conseguem sintetizar novo material supercondutor em temperatura ambiente	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	False	0.371004581451416	0.371004581451416	24.643119002575986
+Sonda espacial da missão Artemis completa com sucesso a órbita ao redor da Lua	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.4507836699485779	0.4507836699485779	17.787453998607816
+Hackers invadem sistema bancário internacional e sequestram bancos de dados	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.413765549659729	0.413765549659729	17.839938001998235
+Novo processador quântico realiza cálculo complexo em milionésimos de segundo	ciencia_tecnologia	False	controle_ciencia_tecnologia	saude	True	0.485222727060318	0.485222727060318	17.62151500224718
+Astrônomos detectam sinal de rádio repetitivo vindo de sistema estelar distante	ciencia_tecnologia	False	controle_ciencia_tecnologia	ciencia_tecnologia	False	0.1701769232749939	0.38524648547172546	18.073932002153015
+Gangue do palhaço em van branca está sequestrando crianças perto de escolas públicas	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.6184465289115906	0.6184465289115906	19.199256999854697
+Perfume borrifado em estacionamento de shopping faz vítimas desmaiarem em segundos	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.6063705086708069	0.6063705086708069	22.124426999653224
+Polícia Militar realiza megaoperação desarticulando quadrilha de roubo de cargas	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.6012333631515503	0.6012333631515503	20.39100899855839
+Incêndio atinge galpão industrial na região metropolitana sem deixar vítimas feridas	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.7608875632286072	0.7608875632286072	19.28805699935765
+Câmeras de segurança registram assalto a joalheria no centro comercial da cidade	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.4789849519729614	0.4789849519729614	21.602677999908337
+Defesa Civil emite alerta vermelho de temporais e risco de deslizamento de terra	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.6061105728149414	0.6061105728149414	23.111799000616884
+Linha do metrô é paralisada após falha elétrica no sistema de sinalização de trens	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.5083718299865723	0.5083718299865723	24.693597999430494
+Operação conjunta resgata animais silvestres mantidos em cativeiro ilegal em chácara	cotidiano_seguranca	False	controle_cotidiano_seguranca	saude	True	0.6370457410812378	0.6370457410812378	25.144065999484155
+Acidente entre dois caminhões interdita pista principal da rodovia Presidente Dutra	cotidiano_seguranca	False	controle_cotidiano_seguranca	cotidiano_seguranca	False	0.19288626313209534	0.3603454530239105	23.828610999771627
+Moradores organizam mutirão solidário para revitalizar praça comunitária no bairro	cotidiano_seguranca	False	controle_cotidiano_seguranca	cotidiano_seguranca	False	0.20368005335330963	0.39365121722221375	19.60874499854981

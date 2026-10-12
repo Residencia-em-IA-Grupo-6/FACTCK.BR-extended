@@ -1,9 +1,10 @@
 {
-  "economia": 0,
-  "entretenimento": 1,
-  "esporte": 2,
-  "politica": 3,
-  "saude": 4,
-  "seguranca_publica": 5,
-  "tecnologia": 6
+  "ciencia_tecnologia": 0,
+  "conversa_geral": 1,
+  "cotidiano_seguranca": 2,
+  "economia_negocios": 3,
+  "entretenimento_cultura": 4,
+  "esportes": 5,
+  "politica_governo": 6,
+  "saude": 7
 }

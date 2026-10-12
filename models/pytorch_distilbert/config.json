@@ -1,33 +1,33 @@
 {
+  "_name_or_path": "models/pytorch_distilbert",
   "activation": "gelu",
   "architectures": [
     "DistilBertForSequenceClassification"
   ],
   "attention_dropout": 0.1,
-  "bos_token_id": null,
   "dim": 768,
   "dropout": 0.1,
-  "dtype": "float32",
-  "eos_token_id": null,
   "hidden_dim": 3072,
   "id2label": {
-    "0": "economia",
-    "1": "entretenimento",
-    "2": "esporte",
-    "3": "politica",
-    "4": "saude",
-    "5": "seguranca_publica",
-    "6": "tecnologia"
+    "0": "ciencia_tecnologia",
+    "1": "conversa_geral",
+    "2": "cotidiano_seguranca",
+    "3": "economia_negocios",
+    "4": "entretenimento_cultura",
+    "5": "esportes",
+    "6": "politica_governo",
+    "7": "saude"
   },
   "initializer_range": 0.02,
   "label2id": {
-    "economia": 0,
-    "entretenimento": 1,
-    "esporte": 2,
-    "politica": 3,
-    "saude": 4,
-    "seguranca_publica": 5,
-    "tecnologia": 6
+    "ciencia_tecnologia": 0,
+    "conversa_geral": 1,
+    "cotidiano_seguranca": 2,
+    "economia_negocios": 3,
+    "entretenimento_cultura": 4,
+    "esportes": 5,
+    "politica_governo": 6,
+    "saude": 7
   },
   "max_position_embeddings": 512,
   "model_type": "distilbert",
@@ -40,7 +40,7 @@
   "seq_classif_dropout": 0.2,
   "sinusoidal_pos_embds": false,
   "tie_weights_": true,
-  "tie_word_embeddings": true,
-  "transformers_version": "5.19.0",
+  "torch_dtype": "float32",
+  "transformers_version": "4.45.2",
   "vocab_size": 119547
 }
